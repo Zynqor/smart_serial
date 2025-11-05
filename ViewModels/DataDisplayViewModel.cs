@@ -116,7 +116,12 @@ public partial class DataDisplayViewModel : ObservableObject
                     return;
                 }
 
-                var results = _frameParserService.ParseFrame(data, command);
+                // 获取 CRC 配置（优先使用 UI 配置）
+                var crcType = _protocolControlViewModel.GetSelectedCrcType();
+                var crcOffset = _protocolControlViewModel.CrcOffset;
+
+                // 使用动态 CRC 配置解析数据
+                var results = _frameParserService.ParseFrame(data, command, crcType, crcOffset);
 
                 // 更新现有字段的解析值，而不是清空重建
                 foreach (var result in results)

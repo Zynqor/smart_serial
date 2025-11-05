@@ -17,6 +17,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <!-- 协议文件 -->
@@ -34,21 +35,64 @@
                               SelectedItem="{Binding SelectedCommand}"/>
                 </StackPanel>
 
+                <!-- CRC 校验配置 -->
+                <StackPanel Grid.Row="2" Margin="0,10,0,5">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- CRC 启用开关 -->
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,5">
+                            <CheckBox Content="启用 CRC 校验" IsChecked="{Binding CrcEnabled}" 
+                                     FontWeight="Bold" Margin="0,0,15,0"/>
+                        </StackPanel>
+
+                        <!-- CRC 类型选择 -->
+                        <Grid Grid.Row="1" Margin="0,5" IsEnabled="{Binding CrcEnabled}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <TextBlock Grid.Column="0" Text="校验类型:" VerticalAlignment="Center" 
+                                      Margin="0,0,10,0"/>
+                            <ComboBox Grid.Column="1" ItemsSource="{Binding CrcTypeOptions}"
+                                     SelectedItem="{Binding SelectedCrcTypeOption}"
+                                     DisplayMemberPath="DisplayName"/>
+                        </Grid>
+
+                        <!-- CRC 偏移配置 -->
+                        <Grid Grid.Row="2" Margin="0,5" IsEnabled="{Binding CrcEnabled}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <TextBlock Grid.Column="0" Text="CRC偏移:" VerticalAlignment="Center" 
+                                      Margin="0,0,10,0"/>
+                            <TextBox Grid.Column="1" Text="{Binding CrcOffset, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Grid>
+                    </Grid>
+                </StackPanel>
+
                 <!-- 发送数据 -->
-                <StackPanel Grid.Row="2" Margin="0,5">
+                <StackPanel Grid.Row="3" Margin="0,5">
                     <TextBlock Text="发送数据 (十六进制，如: 01 03 00 00):" Margin="0,0,0,5"/>
                     <TextBox Text="{Binding SendDataText, UpdateSourceTrigger=PropertyChanged}"
                              Height="60" TextWrapping="Wrap" AcceptsReturn="True"/>
                 </StackPanel>
 
                 <!-- 自动发送设置 -->
-                <StackPanel Grid.Row="3" Margin="0,5">
+                <StackPanel Grid.Row="4" Margin="0,5">
                     <TextBlock Text="自动发送间隔 (毫秒):" Margin="0,0,0,5"/>
                     <TextBox Text="{Binding AutoSendInterval, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
 
                 <!-- 操作按钮 -->
-                <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,10,0,0">
+                <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="0,10,0,0">
                     <ui:Button Content="发送一次" Command="{Binding SendDataCommand}" Margin="0,0,5,0"/>
                     <ui:Button Content="{Binding IsAutoSending, Converter={StaticResource BoolToAutoSendTextConverter}}"
                                Command="{Binding ToggleAutoSendCommand}"

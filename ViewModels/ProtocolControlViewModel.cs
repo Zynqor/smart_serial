@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
+using SerialProtocolAssistant.Models;
 using SerialProtocolAssistant.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
@@ -33,6 +34,27 @@ public partial class ProtocolControlViewModel : ObservableObject
     [ObservableProperty]
     private bool _isAutoSending;
 
+    // CRC 校验相关属性
+    [ObservableProperty]
+    private bool _crcEnabled = false;
+
+    [ObservableProperty]
+    private CrcTypeOption? _selectedCrcTypeOption;
+
+    [ObservableProperty]
+    private int _crcOffset = 0;
+
+    /// <summary>
+    /// CRC 类型选项列表
+    /// </summary>
+    public ObservableCollection<CrcTypeOption> CrcTypeOptions { get; } = new()
+    {
+        new CrcTypeOption { Type = CrcType.CRC16_Modbus, DisplayName = "CRC16-Modbus (2字节)" },
+        new CrcTypeOption { Type = CrcType.CRC16_IBM, DisplayName = "CRC16-IBM (2字节)" },
+        new CrcTypeOption { Type = CrcType.CRC32, DisplayName = "CRC32 (4字节)" },
+        new CrcTypeOption { Type = CrcType.Checksum, DisplayName = "Checksum (1字节)" }
+    };
+
     public ProtocolControlViewModel(
         IProtocolService protocolService,
         ISerialPortService serialPortService,
@@ -41,11 +63,22 @@ public partial class ProtocolControlViewModel : ObservableObject
         _protocolService = protocolService;
         _serialPortService = serialPortService;
         _loggingService = loggingService;
+
+        // 默认选择 CRC16-Modbus
+        SelectedCrcTypeOption = CrcTypeOptions[0];
     }
 
     public void SetDataDisplayViewModel(DataDisplayViewModel dataDisplayViewModel)
     {
         _dataDisplayViewModel = dataDisplayViewModel;
+    }
+
+    /// <summary>
+    /// 获取当前选中的 CRC 类型
+    /// </summary>
+    public CrcType GetSelectedCrcType()
+    {
+        return CrcEnabled ? (SelectedCrcTypeOption?.Type ?? CrcType.None) : CrcType.None;
     }
 
     [RelayCommand]
@@ -210,5 +243,25 @@ public partial class ProtocolControlViewModel : ObservableObject
 
         // 初始化字段模板
         _dataDisplayViewModel?.InitializeFieldsTemplate(value);
+    }
+
+    partial void OnCrcEnabledChanged(bool value)
+    {
+        if (value)
+        {
+            _loggingService.Information($"CRC校验已启用: {SelectedCrcTypeOption?.DisplayName ?? "未选择"}");
+        }
+        else
+        {
+            _loggingService.Information("CRC校验已禁用");
+        }
+    }
+
+    partial void OnSelectedCrcTypeOptionChanged(CrcTypeOption? value)
+    {
+        if (value != null && CrcEnabled)
+        {
+            _loggingService.Information($"CRC校验类型已切换到: {value.DisplayName}");
+        }
     }
 }

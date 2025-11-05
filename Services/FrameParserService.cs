@@ -226,3 +226,90 @@ public class FrameParserService : IFrameParserService
         }
     }
 }
+
+    /// <summary>
+    /// 解析数据帧（支持动态CRC配置，优先于JSON配置）
+    /// </summary>
+    public List<ParsedFieldResult> ParseFrame(byte[] data, CommandDefinition command, CrcType crcType, int crcOffset)
+    {
+        var results = new List<ParsedFieldResult>();
+
+        // 使用动态CRC配置进行校验
+        if (crcType != CrcType.None)
+        {
+            bool crcValid = ValidateCrcDynamic(data, crcType, crcOffset);
+
+            if (!crcValid)
+            {
+                _loggingService.Error($"CRC校验失败（{crcType}），数据被丢弃");
+
+                results.Add(new ParsedFieldResult
+                {
+                    FieldName = "CRC校验",
+                    FieldDescription = "数据完整性校验",
+                    RawBytes = "FAILED",
+                    ParsedValue = $"CRC校验失败（{crcType}），数据已被丢弃"
+                });
+
+                return results;
+            }
+
+            _loggingService.Information($"CRC校验通过（{crcType}）");
+        }
+
+        // 解析字段（与原方法相同）
+        foreach (var field in command.Response.Fields)
+        {
+            var result = new ParsedFieldResult
+            {
+                FieldName = field.Name,
+                FieldDescription = field.Description,
+                Unit = field.Unit
+            };
+
+            try
+            {
+                if (field.Offset + field.ByteLength > data.Length)
+                {
+                    result.ParsedValue = "数据长度不足";
+                    result.RawBytes = "";
+                    results.Add(result);
+                    continue;
+                }
+
+                var bytes = new byte[field.ByteLength];
+                Array.Copy(data, field.Offset, bytes, 0, field.ByteLength);
+                result.RawBytes = BitConverter.ToString(bytes).Replace("-", " ");
+                result.ParsedValue = ParseValue(bytes, field);
+            }
+            catch (Exception ex)
+            {
+                result.ParsedValue = $"解析错误: {ex.Message}";
+                _loggingService.Error($"解析字段 {field.Name} 时出错: {ex.Message}");
+            }
+
+            results.Add(result);
+        }
+
+        return results;
+    }
+
+    /// <summary>
+    /// 验证CRC（使用动态配置）
+    /// </summary>
+    private bool ValidateCrcDynamic(byte[] data, CrcType crcType, int crcOffset)
+    {
+        try
+        {
+            // 数据起始位置固定为0，数据长度为CRC偏移
+            int dataStart = 0;
+            int dataLength = crcOffset;
+
+            return _crcService.VerifyCrc(data, crcType, dataStart, dataLength, crcOffset);
+        }
+        catch (Exception ex)
+        {
+            _loggingService.Error($"CRC校验过程中发生异常: {ex.Message}");
+            return false;
+        }
+    }
