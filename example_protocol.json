@@ -1,0 +1,126 @@
+{
+  "protocolName": "8路电流采集模块",
+  "version": "1.0",
+  "commands": [
+    {
+      "name": "GetCurrents_8channels",
+      "description": "获取8路原始电流数据",
+      "request": {
+        "data": "0103200100081E0C",
+        "description": "读取从寄存器0x2001开始的8个寄存器"
+      },
+      "response": {
+        "fields": [
+          {
+            "name": "deviceAddress",
+            "description": "设备地址",
+            "offset": 0,
+            "byteLength": 1,
+            "type": "uint8"
+          },
+          {
+            "name": "functionCode",
+            "description": "功能码",
+            "offset": 1,
+            "byteLength": 1,
+            "type": "hex"
+          },
+          {
+            "name": "payloadByteCount",
+            "description": "后续字节数",
+            "offset": 2,
+            "byteLength": 1,
+            "type": "uint8"
+          },
+          {
+            "name": "Ia",
+            "description": "电流值ch1 (Ia)",
+            "offset": 3,
+            "byteLength": 2,
+            "type": "uint16",
+            "byteOrder": "big",
+            "multiplier": 1,
+            "unit": "原始值"
+          },
+          {
+            "name": "Ib",
+            "description": "电流值ch2 (Ib)",
+            "offset": 5,
+            "byteLength": 2,
+            "type": "uint16",
+            "byteOrder": "big",
+            "multiplier": 1,
+            "unit": "原始值"
+          },
+          {
+            "name": "Ic",
+            "description": "电流值ch3 (Ic)",
+            "offset": 7,
+            "byteLength": 2,
+            "type": "uint16",
+            "byteOrder": "big",
+            "multiplier": 1,
+            "unit": "原始值"
+          },
+          {
+            "name": "IA",
+            "description": "电流值ch4 (IA)",
+            "offset": 9,
+            "byteLength": 2,
+            "type": "uint16",
+            "byteOrder": "big",
+            "multiplier": 1,
+            "unit": "原始值"
+          },
+          {
+            "name": "IB",
+            "description": "电流值ch5 (IB)",
+            "offset": 11,
+            "byteLength": 2,
+            "type": "uint16",
+            "byteOrder": "big",
+            "multiplier": 1,
+            "unit": "原始值"
+          },
+          {
+            "name": "IC",
+            "description": "电流值ch6 (IC)",
+            "offset": 13,
+            "byteLength": 2,
+            "type": "uint16",
+            "byteOrder": "big",
+            "multiplier": 1,
+            "unit": "原始值"
+          },
+          {
+            "name": "Id",
+            "description": "电流值ch7 (Id)",
+            "offset": 15,
+            "byteLength": 2,
+            "type": "uint16",
+            "byteOrder": "big",
+            "multiplier": 1,
+            "unit": "原始值"
+          },
+          {
+            "name": "Ie",
+            "description": "电流值ch8 (Ie)",
+            "offset": 17,
+            "byteLength": 2,
+            "type": "uint16",
+            "byteOrder": "big",
+            "multiplier": 1,
+            "unit": "原始值"
+          },
+          {
+            "name": "crc",
+            "description": "CRC校验码",
+            "offset": 19,
+            "byteLength": 2,
+            "type": "hex"
+          }
+        ]
+      }
+    }
+  ]
+}

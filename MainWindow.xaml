@@ -1,0 +1,43 @@
+<Window x:Class="SerialProtocolAssistant.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SerialProtocolAssistant"
+        xmlns:views="clr-namespace:SerialProtocolAssistant.Views"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        mc:Ignorable="d"
+        Title="串口协议助手" Height="1026" Width="1600"
+        ResizeMode="CanMinimize"
+        Background="{ui:ThemeResource ApplicationBackgroundBrush}">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="200"/>
+        </Grid.RowDefinitions>
+
+        <!-- 标题 -->
+        <TextBlock Grid.Row="0" Text="串口协议助手" FontSize="24" FontWeight="Bold" Margin="0,0,0,10"/>
+
+        <!-- 主内容区 -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="500"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- 左侧控制面板 -->
+            <StackPanel Grid.Column="0" VerticalAlignment="Top">
+                <views:SerialSettingsView DataContext="{Binding SerialSettingsViewModel}"/>
+                <views:ProtocolControlView DataContext="{Binding ProtocolControlViewModel}"/>
+            </StackPanel>
+
+            <!-- 右侧数据显示 -->
+            <views:DataDisplayView Grid.Column="1" DataContext="{Binding DataDisplayViewModel}"/>
+        </Grid>
+
+        <!-- 底部日志 -->
+        <views:LogView Grid.Row="2" DataContext="{Binding LogViewModel}"/>
+    </Grid>
+</Window>

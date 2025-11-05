@@ -1,0 +1,60 @@
+<UserControl x:Class="SerialProtocolAssistant.Views.ProtocolControlView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             mc:Ignorable="d"
+             d:DesignHeight="400" d:DesignWidth="400">
+    <ui:Card Margin="5">
+        <StackPanel>
+            <TextBlock Text="协议控制" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- 协议文件 -->
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,5">
+                    <TextBlock Text="协议文件:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <TextBlock Text="{Binding ProtocolFilePath}" VerticalAlignment="Center"
+                               TextTrimming="CharacterEllipsis" MaxWidth="200"/>
+                    <ui:Button Content="加载协议" Command="{Binding LoadProtocolCommand}" Margin="10,0,0,0"/>
+                </StackPanel>
+
+                <!-- 选择命令 -->
+                <StackPanel Grid.Row="1" Margin="0,5">
+                    <TextBlock Text="选择命令:" Margin="0,0,0,5"/>
+                    <ComboBox ItemsSource="{Binding CommandNames}"
+                              SelectedItem="{Binding SelectedCommand}"/>
+                </StackPanel>
+
+                <!-- 发送数据 -->
+                <StackPanel Grid.Row="2" Margin="0,5">
+                    <TextBlock Text="发送数据 (十六进制，如: 01 03 00 00):" Margin="0,0,0,5"/>
+                    <TextBox Text="{Binding SendDataText, UpdateSourceTrigger=PropertyChanged}"
+                             Height="60" TextWrapping="Wrap" AcceptsReturn="True"/>
+                </StackPanel>
+
+                <!-- 自动发送设置 -->
+                <StackPanel Grid.Row="3" Margin="0,5">
+                    <TextBlock Text="自动发送间隔 (毫秒):" Margin="0,0,0,5"/>
+                    <TextBox Text="{Binding AutoSendInterval, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+
+                <!-- 操作按钮 -->
+                <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,10,0,0">
+                    <ui:Button Content="发送一次" Command="{Binding SendDataCommand}" Margin="0,0,5,0"/>
+                    <ui:Button Content="{Binding IsAutoSending, Converter={StaticResource BoolToAutoSendTextConverter}}"
+                               Command="{Binding ToggleAutoSendCommand}"
+                               Appearance="{Binding IsAutoSending, Converter={StaticResource BoolToAutoSendAppearanceConverter}}"/>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </ui:Card>
+</UserControl>
