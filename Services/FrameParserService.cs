@@ -6,15 +6,41 @@ namespace SerialProtocolAssistant.Services;
 public class FrameParserService : IFrameParserService
 {
     private readonly ILoggingService _loggingService;
+    private readonly ICrcService _crcService;
 
-    public FrameParserService(ILoggingService loggingService)
+    public FrameParserService(ILoggingService loggingService, ICrcService crcService)
     {
         _loggingService = loggingService;
+        _crcService = crcService;
     }
 
     public List<ParsedFieldResult> ParseFrame(byte[] data, CommandDefinition command)
     {
         var results = new List<ParsedFieldResult>();
+
+        // CRC校验（如果启用）
+        if (command.Response.CrcEnabled)
+        {
+            bool crcValid = ValidateCrc(data, command.Response);
+
+            if (!crcValid)
+            {
+                _loggingService.Error("CRC校验失败，数据被丢弃");
+
+                // 返回一个错误结果而不是解析字段
+                results.Add(new ParsedFieldResult
+                {
+                    FieldName = "CRC校验",
+                    FieldDescription = "数据完整性校验",
+                    RawBytes = "FAILED",
+                    ParsedValue = "CRC校验失败，数据已被丢弃"
+                });
+
+                return results;
+            }
+
+            _loggingService.Information("CRC校验通过");
+        }
 
         foreach (var field in command.Response.Fields)
         {
@@ -136,5 +162,67 @@ public class FrameParserService : IFrameParserService
         }
 
         return result;
+    }
+
+    /// <summary>
+    /// 验证CRC校验
+    /// </summary>
+    private bool ValidateCrc(byte[] data, ResponseDefinition response)
+    {
+        try
+        {
+            // 确定CRC校验的数据长度
+            int crcDataLength = response.CrcDataLength;
+            if (crcDataLength <= 0)
+            {
+                // 如果未指定，自动计算为 crcOffset - crcDataStart
+                crcDataLength = response.CrcOffset - response.CrcDataStart;
+            }
+
+            // 检查数据长度是否足够
+            if (data.Length < response.CrcOffset + 2)
+            {
+                _loggingService.Error($"数据长度不足，无法进行CRC校验。期望至少 {response.CrcOffset + 2} 字节，实际 {data.Length} 字节");
+                return false;
+            }
+
+            // 根据CRC类型进行校验
+            switch (response.CrcType?.ToUpper())
+            {
+                case "CRC16-MODBUS":
+                case "CRC16MODBUS":
+                case "MODBUS":
+                    bool isValid = _crcService.VerifyCrc16Modbus(
+                        data,
+                        response.CrcDataStart,
+                        crcDataLength,
+                        response.CrcOffset);
+
+                    if (!isValid)
+                    {
+                        // 计算期望的CRC以便调试
+                        ushort calculatedCrc = _crcService.CalculateCrc16Modbus(
+                            data,
+                            response.CrcDataStart,
+                            crcDataLength);
+
+                        ushort actualCrc = (ushort)(data[response.CrcOffset] | (data[response.CrcOffset + 1] << 8));
+
+                        _loggingService.Error(
+                            $"CRC16-Modbus校验失败。期望: 0x{calculatedCrc:X4}, 实际: 0x{actualCrc:X4}");
+                    }
+
+                    return isValid;
+
+                default:
+                    _loggingService.Warning($"不支持的CRC类型: {response.CrcType}，跳过CRC校验");
+                    return true; // 不支持的类型，默认通过
+            }
+        }
+        catch (Exception ex)
+        {
+            _loggingService.Error($"CRC校验过程中发生异常: {ex.Message}");
+            return false;
+        }
     }
 }

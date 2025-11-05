@@ -16,6 +16,7 @@ public partial class App : Application
 
         // 注册服务
         services.AddSingleton<ILoggingService, LoggingService>();
+        services.AddSingleton<ICrcService, CrcService>();
         services.AddSingleton<IProtocolService, ProtocolService>();
         services.AddSingleton<IFrameParserService, FrameParserService>();
         services.AddSingleton<ISerialPortService, SerialPortService>();

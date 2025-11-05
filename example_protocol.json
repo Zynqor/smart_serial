@@ -10,6 +10,11 @@
         "description": "读取从寄存器0x2001开始的8个寄存器"
       },
       "response": {
+        "crcEnabled": true,
+        "crcType": "CRC16-Modbus",
+        "crcOffset": 19,
+        "crcDataStart": 0,
+        "crcDataLength": 19,
         "fields": [
           {
             "name": "deviceAddress",
