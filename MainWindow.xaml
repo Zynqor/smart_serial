@@ -53,46 +53,22 @@
 
             <!-- Tab 2: 历史数据 -->
             <TabItem Header="历史数据" FontSize="14" Height="40">
-                <Grid>
-                    <TextBlock Text="历史数据页面 - 开发中..."
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center"
-                              FontSize="16"
-                              Foreground="Gray"/>
-                </Grid>
+                <views:HistoryView DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=HistoryViewModel}"/>
             </TabItem>
 
             <!-- Tab 3: 报警管理 -->
             <TabItem Header="报警管理" FontSize="14" Height="40">
-                <Grid>
-                    <TextBlock Text="报警管理页面 - 开发中..."
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center"
-                              FontSize="16"
-                              Foreground="Gray"/>
-                </Grid>
+                <views:AlarmView DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=AlarmViewModel}"/>
             </TabItem>
 
             <!-- Tab 4: 设备配置 -->
             <TabItem Header="设备配置" FontSize="14" Height="40">
-                <Grid>
-                    <TextBlock Text="设备配置页面 - 开发中..."
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center"
-                              FontSize="16"
-                              Foreground="Gray"/>
-                </Grid>
+                <views:DeviceConfigView DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DeviceConfigViewModel}"/>
             </TabItem>
 
             <!-- Tab 5: 系统设置 -->
             <TabItem Header="系统设置" FontSize="14" Height="40">
-                <Grid>
-                    <TextBlock Text="系统设置页面 - 开发中..."
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center"
-                              FontSize="16"
-                              Foreground="Gray"/>
-                </Grid>
+                <views:SettingsView DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=SettingsViewModel}"/>
             </TabItem>
 
             <!-- Tab 6: 单设备调试（旧版界面） -->

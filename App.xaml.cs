@@ -51,6 +51,10 @@ public partial class App : Application
 
         // 注册新的 ViewModels（多设备监控）
         services.AddSingleton<MonitorViewModel>();
+        services.AddSingleton<HistoryViewModel>();
+        services.AddSingleton<AlarmViewModel>();
+        services.AddSingleton<DeviceConfigViewModel>();
+        services.AddSingleton<SettingsViewModel>();
 
         // 注册 Views
         services.AddSingleton<MainWindow>();

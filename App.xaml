@@ -18,6 +18,8 @@
             <converters:BoolToAutoSendTextConverter x:Key="BoolToAutoSendTextConverter"/>
             <converters:BoolToAutoSendAppearanceConverter x:Key="BoolToAutoSendAppearanceConverter"/>
             <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

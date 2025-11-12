@@ -16,10 +16,18 @@ public partial class MainWindow : Window
 
     // 新的 ViewModels（多设备监控）
     public MonitorViewModel MonitorViewModel { get; }
+    public HistoryViewModel HistoryViewModel { get; }
+    public AlarmViewModel AlarmViewModel { get; }
+    public DeviceConfigViewModel DeviceConfigViewModel { get; }
+    public SettingsViewModel SettingsViewModel { get; }
 
     public MainWindow(
         MainWindowViewModel viewModel,
         MonitorViewModel monitorViewModel,
+        HistoryViewModel historyViewModel,
+        AlarmViewModel alarmViewModel,
+        DeviceConfigViewModel deviceConfigViewModel,
+        SettingsViewModel settingsViewModel,
         ISettingsService settingsService,
         IDatabaseService databaseService,
         IDeviceManagerService deviceManager,
@@ -29,6 +37,10 @@ public partial class MainWindow : Window
         InitializeComponent();
         _viewModel = viewModel;
         MonitorViewModel = monitorViewModel;
+        HistoryViewModel = historyViewModel;
+        AlarmViewModel = alarmViewModel;
+        DeviceConfigViewModel = deviceConfigViewModel;
+        SettingsViewModel = settingsViewModel;
         _settingsService = settingsService;
         _databaseService = databaseService;
         _deviceManager = deviceManager;
@@ -53,6 +65,11 @@ public partial class MainWindow : Window
             try
             {
                 _deviceManager.LoadProtocol(dialog.FileName);
+
+                // 刷新各个ViewModel
+                MonitorViewModel.LoadProtocol(dialog.FileName);
+                HistoryViewModel.RefreshProtocol();
+
                 _loggingService.Information($"已加载协议: {dialog.FileName}");
                 MessageBox.Show("协议加载成功！", "成功", MessageBoxButton.OK, MessageBoxImage.Information);
             }
