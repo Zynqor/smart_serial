@@ -7,37 +7,134 @@
         xmlns:views="clr-namespace:SerialProtocolAssistant.Views"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         mc:Ignorable="d"
-        Title="串口协议助手" Height="1026" Width="1600"
-        ResizeMode="CanMinimize"
-        Background="{ui:ThemeResource ApplicationBackgroundBrush}">
-    <Grid Margin="10">
+        Title="RS-485多设备监控系统" Height="900" Width="1600"
+        ResizeMode="CanResize"
+        Background="{ui:ThemeResource ApplicationBackgroundBrush}"
+        Closing="Window_Closing">
+
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="200"/>
         </Grid.RowDefinitions>
 
-        <!-- 标题 -->
-        <TextBlock Grid.Row="0" Text="串口协议助手" FontSize="24" FontWeight="Bold" Margin="0,0,0,10"/>
+        <!-- 菜单栏 -->
+        <Menu Grid.Row="0" Background="{ui:ThemeResource ControlFillColorDefaultBrush}" Height="32">
+            <MenuItem Header="文件(_F)" Height="32" Padding="10,0">
+                <MenuItem Header="加载协议配置..." Click="LoadProtocol_Click"/>
+                <MenuItem Header="保存协议配置..." Click="SaveProtocol_Click"/>
+                <Separator/>
+                <MenuItem Header="导出当前数据..." Click="ExportCurrentData_Click"/>
+                <Separator/>
+                <MenuItem Header="退出" Click="Exit_Click"/>
+            </MenuItem>
+            <MenuItem Header="视图(_V)" Height="32" Padding="10,0">
+                <MenuItem Header="刷新" Click="Refresh_Click"/>
+                <Separator/>
+                <MenuItem Header="全屏" Click="FullScreen_Click"/>
+            </MenuItem>
+            <MenuItem Header="工具(_T)" Height="32" Padding="10,0">
+                <MenuItem Header="数据库优化..." Click="OptimizeDatabase_Click"/>
+                <MenuItem Header="数据库备份..." Click="BackupDatabase_Click"/>
+                <Separator/>
+                <MenuItem Header="清理历史数据..." Click="CleanupData_Click"/>
+            </MenuItem>
+            <MenuItem Header="帮助(_H)" Height="32" Padding="10,0">
+                <MenuItem Header="关于" Click="About_Click"/>
+            </MenuItem>
+        </Menu>
 
-        <!-- 主内容区 -->
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="500"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        <!-- Tab控件 -->
+        <TabControl Grid.Row="1" Margin="0" Padding="0">
+            <!-- Tab 1: 实时监控 -->
+            <TabItem Header="实时监控" FontSize="14" Height="40">
+                <Grid>
+                    <TextBlock Text="实时监控页面 - 开发中..."
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              FontSize="16"
+                              Foreground="Gray"/>
+                </Grid>
+            </TabItem>
 
-            <!-- 左侧控制面板 -->
-            <StackPanel Grid.Column="0" VerticalAlignment="Top">
-                <views:SerialSettingsView DataContext="{Binding SerialSettingsViewModel}"/>
-                <views:ProtocolControlView DataContext="{Binding ProtocolControlViewModel}"/>
-            </StackPanel>
+            <!-- Tab 2: 历史数据 -->
+            <TabItem Header="历史数据" FontSize="14" Height="40">
+                <Grid>
+                    <TextBlock Text="历史数据页面 - 开发中..."
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              FontSize="16"
+                              Foreground="Gray"/>
+                </Grid>
+            </TabItem>
 
-            <!-- 右侧数据显示 -->
-            <views:DataDisplayView Grid.Column="1" DataContext="{Binding DataDisplayViewModel}"/>
-        </Grid>
+            <!-- Tab 3: 报警管理 -->
+            <TabItem Header="报警管理" FontSize="14" Height="40">
+                <Grid>
+                    <TextBlock Text="报警管理页面 - 开发中..."
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              FontSize="16"
+                              Foreground="Gray"/>
+                </Grid>
+            </TabItem>
 
-        <!-- 底部日志 -->
-        <views:LogView Grid.Row="2" DataContext="{Binding LogViewModel}"/>
+            <!-- Tab 4: 设备配置 -->
+            <TabItem Header="设备配置" FontSize="14" Height="40">
+                <Grid>
+                    <TextBlock Text="设备配置页面 - 开发中..."
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              FontSize="16"
+                              Foreground="Gray"/>
+                </Grid>
+            </TabItem>
+
+            <!-- Tab 5: 系统设置 -->
+            <TabItem Header="系统设置" FontSize="14" Height="40">
+                <Grid>
+                    <TextBlock Text="系统设置页面 - 开发中..."
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              FontSize="16"
+                              Foreground="Gray"/>
+                </Grid>
+            </TabItem>
+
+            <!-- Tab 6: 单设备调试（旧版界面） -->
+            <TabItem Header="单设备调试" FontSize="14" Height="40">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="200"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- 标题 -->
+                    <TextBlock Grid.Row="0" Text="单设备调试模式（向下兼容）"
+                              FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                    <!-- 主内容区 -->
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="500"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- 左侧控制面板 -->
+                        <StackPanel Grid.Column="0" VerticalAlignment="Top">
+                            <views:SerialSettingsView DataContext="{Binding SerialSettingsViewModel}"/>
+                            <views:ProtocolControlView DataContext="{Binding ProtocolControlViewModel}"/>
+                        </StackPanel>
+
+                        <!-- 右侧数据显示 -->
+                        <views:DataDisplayView Grid.Column="1" DataContext="{Binding DataDisplayViewModel}"/>
+                    </Grid>
+
+                    <!-- 底部日志 -->
+                    <views:LogView Grid.Row="2" DataContext="{Binding LogViewModel}"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
