@@ -143,16 +143,18 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <Grid Grid.Row="0" Background="#E8F5E9" Padding="15,12">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+                    <Border Grid.Row="0" Background="#E8F5E9" Padding="15,12">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
 
-                        <TextBlock Grid.Column="0" Text="设备列表" FontSize="14" FontWeight="Bold" VerticalAlignment="Center"/>
-                        <ui:Button Grid.Column="1" Content="刷新" Command="{Binding RefreshDevicesCommand}"
-                                  Appearance="Secondary" Width="70" Height="30"/>
-                    </Grid>
+                            <TextBlock Grid.Column="0" Text="设备列表" FontSize="14" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <ui:Button Grid.Column="1" Content="刷新" Command="{Binding RefreshDevicesCommand}"
+                                      Appearance="Secondary" Width="70" Height="30"/>
+                        </Grid>
+                    </Border>
 
                     <DataGrid Grid.Row="1" ItemsSource="{Binding Devices}"
                              AutoGenerateColumns="False"

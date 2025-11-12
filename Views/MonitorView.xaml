@@ -23,7 +23,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- 左侧控制按钮 -->
-            <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8">
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
                 <ui:Button Content="开始监控"
                           Height="32"
                           Padding="16,0"
@@ -34,6 +34,7 @@
                 <ui:Button Content="停止监控"
                           Height="32"
                           Padding="16,0"
+                          Margin="8,0,0,0"
                           Command="{Binding StopMonitoringCommand}"
                           IsEnabled="{Binding IsMonitoring}"
                           Appearance="Danger"/>
@@ -41,6 +42,7 @@
                 <ui:Button Content="刷新设备"
                           Height="32"
                           Padding="16,0"
+                          Margin="8,0,0,0"
                           Command="{Binding RefreshDevicesCommand}"/>
             </StackPanel>
 
