@@ -16,51 +16,141 @@
 
         <!-- 工具栏 -->
         <Grid Grid.Row="0" Margin="0,0,0,10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-            <!-- 左侧控制按钮 -->
-            <StackPanel Grid.Column="0" Orientation="Horizontal">
-                <ui:Button Content="开始监控"
-                          Height="32"
-                          Padding="16,0"
-                          Command="{Binding StartMonitoringCommand}"
-                          IsEnabled="{Binding IsMonitoring, Converter={StaticResource InverseBooleanConverter}}"
-                          Appearance="Success"/>
+            <!-- 第一行：串口连接 -->
+            <ui:Card Grid.Row="0" Padding="12">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <ui:Button Content="停止监控"
-                          Height="32"
-                          Padding="16,0"
-                          Margin="8,0,0,0"
-                          Command="{Binding StopMonitoringCommand}"
-                          IsEnabled="{Binding IsMonitoring}"
-                          Appearance="Danger"/>
+                    <TextBlock Grid.Column="0" Text="串口:" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="13"/>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <ComboBox Grid.Column="0" ItemsSource="{Binding AvailablePorts}"
+                                 SelectedItem="{Binding SelectedPort, Mode=TwoWay}"
+                                 Height="32" VerticalAlignment="Center" FontSize="12"/>
+                        <ui:Button Grid.Column="2" Content="🔄" Command="{Binding RefreshPortsCommand}"
+                                  Width="30" Height="32" ToolTip="刷新串口列表" FontSize="11"/>
+                    </Grid>
 
-                <ui:Button Content="刷新设备"
-                          Height="32"
-                          Padding="16,0"
-                          Margin="8,0,0,0"
-                          Command="{Binding RefreshDevicesCommand}"/>
-            </StackPanel>
+                    <TextBlock Grid.Column="3" Text="波特率:" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="13"/>
+                    <ComboBox Grid.Column="4" ItemsSource="{Binding BaudRates}"
+                             SelectedItem="{Binding SelectedBaudRate, Mode=TwoWay}"
+                             Height="32" VerticalAlignment="Center" FontSize="12"/>
 
-            <!-- 中间状态栏 -->
-            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="状态: " FontSize="13" Margin="0,0,5,0"/>
-                <TextBlock Text="{Binding StatusText}" FontSize="13" FontWeight="Bold"/>
-                <TextBlock Text=" | 数据速率: " FontSize="13" Margin="20,0,5,0"/>
-                <TextBlock Text="{Binding DataRate, StringFormat={}{0:F1} 条/秒}" FontSize="13" FontWeight="Bold" Foreground="#2196F3"/>
-            </StackPanel>
+                    <StackPanel Grid.Column="6" Orientation="Horizontal">
+                        <ui:Button Content="连接串口" Command="{Binding OpenPortCommand}"
+                                  Appearance="Primary" Width="90" Height="32"
+                                  IsEnabled="{Binding IsSerialConnected, Converter={StaticResource InverseBooleanConverter}}"
+                                  FontSize="12"/>
+                        <ui:Button Content="断开串口" Command="{Binding ClosePortCommand}"
+                                  Appearance="Danger" Width="90" Height="32" Margin="10,0,0,0"
+                                  IsEnabled="{Binding IsSerialConnected}"
+                                  FontSize="12"/>
 
-            <!-- 右侧统计信息 -->
-            <StackPanel Grid.Column="2" Orientation="Horizontal">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="在线设备: " FontSize="13"/>
-                    <TextBlock Text="{Binding Devices.Count}" FontSize="13" FontWeight="Bold" Foreground="#4CAF50"/>
+                        <Border Width="2" Background="#E0E0E0" Margin="15,0"/>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Ellipse Width="10" Height="10" Margin="0,0,8,0">
+                                <Ellipse.Style>
+                                    <Style TargetType="Ellipse">
+                                        <Setter Property="Fill" Value="#BDBDBD"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsSerialConnected}" Value="True">
+                                                <Setter Property="Fill" Value="#4CAF50"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Ellipse.Style>
+                            </Ellipse>
+                            <TextBlock VerticalAlignment="Center" FontSize="12">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="未连接"/>
+                                        <Setter Property="Foreground" Value="#757575"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsSerialConnected}" Value="True">
+                                                <Setter Property="Text" Value="已连接"/>
+                                                <Setter Property="Foreground" Value="#4CAF50"/>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </ui:Card>
+
+            <!-- 第二行：监控控制和状态 -->
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- 左侧控制按钮 -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <ui:Button Content="开始监控"
+                              Height="36"
+                              Padding="20,0"
+                              Command="{Binding StartMonitoringCommand}"
+                              IsEnabled="{Binding IsMonitoring, Converter={StaticResource InverseBooleanConverter}}"
+                              Appearance="Success"
+                              FontSize="13"/>
+
+                    <ui:Button Content="停止监控"
+                              Height="36"
+                              Padding="20,0"
+                              Margin="10,0,0,0"
+                              Command="{Binding StopMonitoringCommand}"
+                              IsEnabled="{Binding IsMonitoring}"
+                              Appearance="Danger"
+                              FontSize="13"/>
+
+                    <ui:Button Content="刷新设备"
+                              Height="36"
+                              Padding="20,0"
+                              Margin="10,0,0,0"
+                              Command="{Binding RefreshDevicesCommand}"
+                              FontSize="13"/>
                 </StackPanel>
-            </StackPanel>
+
+                <!-- 中间状态栏 -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="状态: " FontSize="13" Margin="0,0,5,0"/>
+                    <TextBlock Text="{Binding StatusText}" FontSize="13" FontWeight="Bold"/>
+                    <TextBlock Text=" | 数据速率: " FontSize="13" Margin="20,0,5,0"/>
+                    <TextBlock Text="{Binding DataRate, StringFormat={}{0:F1} 条/秒}" FontSize="13" FontWeight="Bold" Foreground="#2196F3"/>
+                </StackPanel>
+
+                <!-- 右侧统计信息 -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="在线设备: " FontSize="13"/>
+                        <TextBlock Text="{Binding Devices.Count}" FontSize="13" FontWeight="Bold" Foreground="#4CAF50"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
         </Grid>
 
         <!-- 主内容区 -->

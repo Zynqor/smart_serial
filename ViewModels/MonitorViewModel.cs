@@ -59,6 +59,30 @@ public partial class MonitorViewModel : ObservableObject
     [ObservableProperty]
     private double _dataRate;
 
+    /// <summary>
+    /// 可用串口列表
+    /// </summary>
+    [ObservableProperty]
+    private ObservableCollection<string> _availablePorts = new();
+
+    /// <summary>
+    /// 选中的串口
+    /// </summary>
+    [ObservableProperty]
+    private string _selectedPort = string.Empty;
+
+    /// <summary>
+    /// 波特率列表
+    /// </summary>
+    [ObservableProperty]
+    private ObservableCollection<int> _baudRates = new() { 9600, 19200, 38400, 57600, 115200 };
+
+    /// <summary>
+    /// 选中的波特率
+    /// </summary>
+    [ObservableProperty]
+    private int _selectedBaudRate = 9600;
+
     private DateTime _lastDataTime = DateTime.Now;
     private int _dataCount;
 
@@ -99,6 +123,93 @@ public partial class MonitorViewModel : ObservableObject
 
         // 初始化
         UpdateProtocolStatus();
+        RefreshPorts();
+    }
+
+    /// <summary>
+    /// 刷新串口列表
+    /// </summary>
+    [RelayCommand]
+    private void RefreshPorts()
+    {
+        try
+        {
+            var ports = System.IO.Ports.SerialPort.GetPortNames();
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                AvailablePorts.Clear();
+                foreach (var port in ports.OrderBy(p => p))
+                {
+                    AvailablePorts.Add(port);
+                }
+
+                // 选中第一个串口
+                if (AvailablePorts.Count > 0 && string.IsNullOrEmpty(SelectedPort))
+                {
+                    SelectedPort = AvailablePorts[0];
+                }
+            });
+            _loggingService.Information($"刷新串口列表，找到 {ports.Length} 个串口");
+        }
+        catch (Exception ex)
+        {
+            _loggingService.Error($"刷新串口列表失败: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// 打开串口
+    /// </summary>
+    [RelayCommand]
+    private void OpenPort()
+    {
+        if (string.IsNullOrEmpty(SelectedPort))
+        {
+            MessageBox.Show("请选择串口！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        try
+        {
+            _serialPort.Open(SelectedPort, SelectedBaudRate, 8, "None", "1");
+            IsSerialConnected = true;
+            StatusText = $"已连接 {SelectedPort}";
+            _loggingService.Information($"串口打开成功: {SelectedPort} @ {SelectedBaudRate}");
+            MessageBox.Show($"串口连接成功！\n串口: {SelectedPort}\n波特率: {SelectedBaudRate}", "成功",
+                MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            _loggingService.Error($"打开串口失败: {ex.Message}");
+            MessageBox.Show($"串口连接失败:\n{ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    /// <summary>
+    /// 关闭串口
+    /// </summary>
+    [RelayCommand]
+    private void ClosePort()
+    {
+        try
+        {
+            // 先停止监控
+            if (IsMonitoring)
+            {
+                _pollingService.Stop();
+                IsMonitoring = false;
+            }
+
+            _serialPort.Close();
+            IsSerialConnected = false;
+            StatusText = "未连接";
+            _loggingService.Information("串口已关闭");
+        }
+        catch (Exception ex)
+        {
+            _loggingService.Error($"关闭串口失败: {ex.Message}");
+            MessageBox.Show($"关闭串口失败:\n{ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 
     /// <summary>

@@ -75,11 +75,11 @@
                             <DataGridTextColumn Header="设备" Binding="{Binding DeviceName}" Width="120"/>
                             <DataGridTextColumn Header="通道" Binding="{Binding ChannelName}" Width="120"/>
                             <DataGridTextColumn Header="报警类型" Binding="{Binding AlarmType}" Width="80"/>
-                            <DataGridTextColumn Header="当前值" Binding="{Binding Value, StringFormat=F2}" Width="80"/>
+                            <DataGridTextColumn Header="当前值" Binding="{Binding TriggerValue, StringFormat=F2}" Width="80"/>
                             <DataGridTextColumn Header="限值" Binding="{Binding LimitValue, StringFormat=F2}" Width="80"/>
                             <DataGridTextColumn Header="状态" Binding="{Binding Status}" Width="80"/>
-                            <DataGridTextColumn Header="触发时间" Binding="{Binding TriggerTime, StringFormat=HH:mm:ss}" Width="90"/>
-                            <DataGridTextColumn Header="持续时间" Binding="{Binding DurationSeconds, StringFormat={}{0}秒}" Width="*"/>
+                            <DataGridTextColumn Header="触发时间" Binding="{Binding StartTime, StringFormat=HH:mm:ss}" Width="90"/>
+                            <DataGridTextColumn Header="持续时间" Binding="{Binding Duration, StringFormat={}{0}秒}" Width="*"/>
                         </DataGrid.Columns>
                         <DataGrid.RowStyle>
                             <Style TargetType="DataGridRow">
@@ -157,13 +157,12 @@
                             <DataGridTextColumn Header="设备" Binding="{Binding DeviceName}" Width="110"/>
                             <DataGridTextColumn Header="通道" Binding="{Binding ChannelName}" Width="110"/>
                             <DataGridTextColumn Header="类型" Binding="{Binding AlarmType}" Width="70"/>
-                            <DataGridTextColumn Header="数值" Binding="{Binding Value, StringFormat=F2}" Width="70"/>
+                            <DataGridTextColumn Header="数值" Binding="{Binding TriggerValue, StringFormat=F2}" Width="70"/>
                             <DataGridTextColumn Header="限值" Binding="{Binding LimitValue, StringFormat=F2}" Width="70"/>
                             <DataGridTextColumn Header="状态" Binding="{Binding Status}" Width="70"/>
-                            <DataGridTextColumn Header="触发时间" Binding="{Binding TriggerTime, StringFormat=MM-dd HH:mm:ss}" Width="120"/>
-                            <DataGridTextColumn Header="确认时间" Binding="{Binding AcknowledgedTime, StringFormat=MM-dd HH:mm:ss}" Width="120"/>
-                            <DataGridTextColumn Header="解除时间" Binding="{Binding ResolvedTime, StringFormat=MM-dd HH:mm:ss}" Width="120"/>
-                            <DataGridTextColumn Header="持续(秒)" Binding="{Binding DurationSeconds}" Width="*"/>
+                            <DataGridTextColumn Header="触发时间" Binding="{Binding StartTime, StringFormat=MM-dd HH:mm:ss}" Width="120"/>
+                            <DataGridTextColumn Header="解除时间" Binding="{Binding EndTime, StringFormat=MM-dd HH:mm:ss}" Width="120"/>
+                            <DataGridTextColumn Header="持续(秒)" Binding="{Binding Duration}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
