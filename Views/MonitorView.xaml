@@ -15,105 +15,95 @@
         </Grid.RowDefinitions>
 
         <!-- 工具栏 -->
-        <Grid Grid.Row="0" Margin="0,0,0,10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="10"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-
-            <!-- 第一行：串口连接 -->
-            <ui:Card Grid.Row="0" Padding="15,12">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="200" MinWidth="150"/>
-                        <ColumnDefinition Width="15"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="130" MinWidth="100"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Column="0" Text="串口:" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="13"/>
-                    <Grid Grid.Column="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="5"/>
-                            <ColumnDefinition Width="55"/>
-                        </Grid.ColumnDefinitions>
-                        <ComboBox Grid.Column="0" ItemsSource="{Binding AvailablePorts}"
-                                 SelectedItem="{Binding SelectedPort, Mode=TwoWay}"
-                                 Height="34" VerticalAlignment="Center" FontSize="13"/>
-                        <ui:Button Grid.Column="2" Content="刷新" Command="{Binding RefreshPortsCommand}"
-                                  Width="55" Height="34" ToolTip="刷新串口列表" FontSize="12"
-                                  Padding="8,0"/>
-                    </Grid>
-
-                    <TextBlock Grid.Column="3" Text="波特率:" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="13"/>
-                    <ComboBox Grid.Column="4" ItemsSource="{Binding BaudRates}"
-                             SelectedItem="{Binding SelectedBaudRate, Mode=TwoWay}"
-                             Height="34" VerticalAlignment="Center" FontSize="13"/>
-
-                    <StackPanel Grid.Column="6" Orientation="Horizontal">
-                        <ui:Button Content="连接串口" Command="{Binding OpenPortCommand}"
-                                  Appearance="Primary" Width="95" Height="34"
-                                  IsEnabled="{Binding IsSerialConnected, Converter={StaticResource InverseBooleanConverter}}"
-                                  FontSize="13"/>
-                        <ui:Button Content="断开串口" Command="{Binding ClosePortCommand}"
-                                  Appearance="Danger" Width="95" Height="34" Margin="10,0,0,0"
-                                  IsEnabled="{Binding IsSerialConnected}"
-                                  FontSize="13"/>
-
-                        <Border Width="2" Background="#E0E0E0" Margin="15,0"/>
-
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <Ellipse Width="10" Height="10" Margin="0,0,8,0">
-                                <Ellipse.Style>
-                                    <Style TargetType="Ellipse">
-                                        <Setter Property="Fill" Value="#BDBDBD"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsSerialConnected}" Value="True">
-                                                <Setter Property="Fill" Value="#4CAF50"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Ellipse.Style>
-                            </Ellipse>
-                            <TextBlock VerticalAlignment="Center" FontSize="12">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Text" Value="未连接"/>
-                                        <Setter Property="Foreground" Value="#757575"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsSerialConnected}" Value="True">
-                                                <Setter Property="Text" Value="已连接"/>
-                                                <Setter Property="Foreground" Value="#4CAF50"/>
-                                                <Setter Property="FontWeight" Value="Bold"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                        </StackPanel>
-                    </StackPanel>
-                </Grid>
-            </ui:Card>
-
-            <!-- 第二行：监控控制和状态 -->
-            <Grid Grid.Row="2">
+        <ui:Card Grid.Row="0" Padding="15,12" Margin="0,0,0,10">
+            <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="180" MinWidth="150"/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="120" MinWidth="100"/>
+                    <ColumnDefinition Width="15"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="15"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- 左侧控制按钮 -->
-                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <!-- 串口选择 -->
+                <TextBlock Grid.Column="0" Text="串口:" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="13"/>
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox Grid.Column="0" ItemsSource="{Binding AvailablePorts}"
+                             SelectedItem="{Binding SelectedPort, Mode=TwoWay}"
+                             Height="36" VerticalAlignment="Center" FontSize="13" Padding="8,0"/>
+                    <ui:Button Grid.Column="2" Content="刷新" Command="{Binding RefreshPortsCommand}"
+                              Width="50" Height="36" ToolTip="刷新串口列表" FontSize="12"
+                              Padding="6,0"/>
+                </Grid>
+
+                <!-- 波特率 -->
+                <TextBlock Grid.Column="3" Text="波特率:" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="13"/>
+                <ComboBox Grid.Column="4" ItemsSource="{Binding BaudRates}"
+                         SelectedItem="{Binding SelectedBaudRate, Mode=TwoWay}"
+                         Height="36" VerticalAlignment="Center" FontSize="13" Padding="8,0"/>
+
+                <!-- 串口连接按钮 -->
+                <ui:Button Grid.Column="6" Content="连接串口" Command="{Binding OpenPortCommand}"
+                          Appearance="Primary" Width="88" Height="36"
+                          IsEnabled="{Binding IsSerialConnected, Converter={StaticResource InverseBooleanConverter}}"
+                          FontSize="13" Padding="12,0"/>
+                <ui:Button Grid.Column="7" Content="断开串口" Command="{Binding ClosePortCommand}"
+                          Appearance="Danger" Width="88" Height="36" Margin="8,0,0,0"
+                          IsEnabled="{Binding IsSerialConnected}"
+                          FontSize="13" Padding="12,0"/>
+
+                <!-- 串口状态指示 -->
+                <StackPanel Grid.Column="8" Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
+                    <Ellipse Width="10" Height="10" Margin="0,0,6,0">
+                        <Ellipse.Style>
+                            <Style TargetType="Ellipse">
+                                <Setter Property="Fill" Value="#BDBDBD"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSerialConnected}" Value="True">
+                                        <Setter Property="Fill" Value="#4CAF50"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                    <TextBlock VerticalAlignment="Center" FontSize="12">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Text" Value="未连接"/>
+                                <Setter Property="Foreground" Value="#757575"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSerialConnected}" Value="True">
+                                        <Setter Property="Text" Value="已连接"/>
+                                        <Setter Property="Foreground" Value="#4CAF50"/>
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
+
+                <!-- 分隔线 -->
+                <Border Grid.Column="10" Width="1" Background="#E0E0E0" Margin="0,4"/>
+
+                <!-- 监控控制按钮 -->
+                <StackPanel Grid.Column="12" Orientation="Horizontal">
                     <ui:Button Content="开始监控"
                               Height="36"
-                              Padding="20,0"
+                              Padding="16,0"
                               Command="{Binding StartMonitoringCommand}"
                               IsEnabled="{Binding IsMonitoring, Converter={StaticResource InverseBooleanConverter}}"
                               Appearance="Success"
@@ -121,8 +111,8 @@
 
                     <ui:Button Content="停止监控"
                               Height="36"
-                              Padding="20,0"
-                              Margin="10,0,0,0"
+                              Padding="16,0"
+                              Margin="8,0,0,0"
                               Command="{Binding StopMonitoringCommand}"
                               IsEnabled="{Binding IsMonitoring}"
                               Appearance="Danger"
@@ -130,29 +120,25 @@
 
                     <ui:Button Content="刷新设备"
                               Height="36"
-                              Padding="20,0"
-                              Margin="10,0,0,0"
+                              Padding="16,0"
+                              Margin="8,0,0,0"
                               Command="{Binding RefreshDevicesCommand}"
                               FontSize="13"/>
-                </StackPanel>
 
-                <!-- 中间状态栏 -->
-                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock Text="状态: " FontSize="13" Margin="0,0,5,0"/>
-                    <TextBlock Text="{Binding StatusText}" FontSize="13" FontWeight="Bold"/>
-                    <TextBlock Text=" | 数据速率: " FontSize="13" Margin="20,0,5,0"/>
-                    <TextBlock Text="{Binding DataRate, StringFormat={}{0:F1} 条/秒}" FontSize="13" FontWeight="Bold" Foreground="#2196F3"/>
-                </StackPanel>
-
-                <!-- 右侧统计信息 -->
-                <StackPanel Grid.Column="2" Orientation="Horizontal">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="在线设备: " FontSize="13"/>
-                        <TextBlock Text="{Binding Devices.Count}" FontSize="13" FontWeight="Bold" Foreground="#4CAF50"/>
-                    </StackPanel>
+                    <!-- 监控状态和统计信息 -->
+                    <Border BorderBrush="#E0E0E0" BorderThickness="1,0,0,0" Padding="15,0,0,0" Margin="15,0,0,0">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="状态: " FontSize="12" Margin="0,0,5,0" Foreground="#666"/>
+                            <TextBlock Text="{Binding StatusText}" FontSize="12" FontWeight="Bold"/>
+                            <TextBlock Text=" | 在线: " FontSize="12" Margin="12,0,5,0" Foreground="#666"/>
+                            <TextBlock Text="{Binding Devices.Count}" FontSize="12" FontWeight="Bold" Foreground="#4CAF50"/>
+                            <TextBlock Text=" | 速率: " FontSize="12" Margin="12,0,5,0" Foreground="#666"/>
+                            <TextBlock Text="{Binding DataRate, StringFormat={}{0:F1}/s}" FontSize="12" FontWeight="Bold" Foreground="#2196F3"/>
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
             </Grid>
-        </Grid>
+        </ui:Card>
 
         <!-- 主内容区 -->
         <Grid Grid.Row="1">
@@ -164,12 +150,13 @@
             <!-- 左侧面板 -->
             <Grid Grid.Column="0" Margin="0,0,8,0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="450" MinHeight="300" MaxHeight="600"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto" MinHeight="180"/>
                 </Grid.RowDefinitions>
 
-                <!-- 图例面板 -->
-                <ui:Card Grid.Row="0" Padding="10">
+                <!-- 图例面板 - 占满剩余空间 -->
+                <ui:Card Grid.Row="0" Padding="12">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -181,27 +168,29 @@
                         <TextBlock Grid.Row="0" Text="图例" FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
 
                         <!-- 设备和通道树形列表 -->
-                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                         <ItemsControl ItemsSource="{Binding Devices}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Expander Header="{Binding Definition.Name}"
                                              IsExpanded="True"
-                                             Margin="0,5">
+                                             Margin="0,4">
                                         <StackPanel Margin="20,5,0,5">
                                             <ItemsControl ItemsSource="{Binding ChannelData}">
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
                                                         <CheckBox IsChecked="{Binding IsVisible}"
-                                                                 Margin="0,3"
-                                                                 Height="24">
+                                                                 Margin="0,2"
+                                                                 Height="26">
                                                             <StackPanel Orientation="Horizontal">
                                                                 <!-- 颜色指示器 -->
-                                                                <Border Width="16" Height="16"
+                                                                <Border Width="14" Height="14"
                                                                        Background="{Binding Definition.Color}"
                                                                        CornerRadius="2"
                                                                        Margin="0,0,8,0"/>
-                                                                <TextBlock Text="{Binding Definition.Name}" VerticalAlignment="Center"/>
+                                                                <TextBlock Text="{Binding Definition.Name}"
+                                                                          VerticalAlignment="Center"
+                                                                          FontSize="12"/>
                                                             </StackPanel>
                                                         </CheckBox>
                                                     </DataTemplate>
@@ -216,59 +205,76 @@
 
                     <!-- 底部按钮 -->
                     <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-                        <ui:Button Content="全选" Height="28" Padding="12,0" Margin="0,0,5,0" Click="SelectAll_Click"/>
-                        <ui:Button Content="全不选" Height="28" Padding="12,0" Click="DeselectAll_Click"/>
+                        <ui:Button Content="全选" Height="30" Padding="16,0" Margin="0,0,6,0" Click="SelectAll_Click" FontSize="12"/>
+                        <ui:Button Content="全不选" Height="30" Padding="16,0" Click="DeselectAll_Click" FontSize="12"/>
                     </StackPanel>
                 </Grid>
             </ui:Card>
 
-            <!-- 协议和设备信息面板 -->
-            <ui:Card Grid.Row="1" Margin="0,10,0,0" Padding="15">
-                <StackPanel>
-                    <TextBlock Text="协议信息" FontSize="13" FontWeight="Bold" Margin="0,0,0,12"/>
+            <!-- 协议和设备信息面板 - 固定高度 -->
+            <ui:Card Grid.Row="2" Padding="15">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                    <Border BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="0,0,0,10" Margin="0,0,0,10">
+                    <TextBlock Grid.Row="0" Text="协议信息" FontSize="13" FontWeight="Bold" Margin="0,0,0,12"/>
+
+                    <StackPanel Grid.Row="1" VerticalAlignment="Top">
+                        <Border BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="0,0,0,10" Margin="0,0,0,10">
+                            <StackPanel>
+                                <TextBlock Text="当前协议" FontSize="11" Foreground="#666" Margin="0,0,0,5"/>
+                                <TextBlock FontSize="12" TextWrapping="Wrap">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Text" Value="未加载"/>
+                                            <Setter Property="Foreground" Value="#999"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsProtocolLoaded}" Value="True">
+                                                    <Setter Property="Text" Value="已加载"/>
+                                                    <Setter Property="Foreground" Value="#4CAF50"/>
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </StackPanel>
+                        </Border>
+
                         <StackPanel>
-                            <TextBlock Text="当前协议" FontSize="11" Foreground="Gray" Margin="0,0,0,5"/>
-                            <TextBlock FontSize="12" TextWrapping="Wrap">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Text" Value="未加载"/>
-                                        <Setter Property="Foreground" Value="#999"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsProtocolLoaded}" Value="True">
-                                                <Setter Property="Text" Value="已加载"/>
-                                                <Setter Property="Foreground" Value="#4CAF50"/>
-                                                <Setter Property="FontWeight" Value="Bold"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
+                            <TextBlock Text="设备数量" FontSize="11" Foreground="#666" Margin="0,0,0,5"/>
+                            <TextBlock FontSize="16" FontWeight="Bold" Foreground="#2196F3">
+                                <Run Text="{Binding Devices.Count, Mode=OneWay}"/>
+                                <Run Text=" 个设备" FontSize="12"/>
                             </TextBlock>
                         </StackPanel>
-                    </Border>
 
-                    <StackPanel>
-                        <TextBlock Text="设备数量" FontSize="11" Foreground="Gray" Margin="0,0,0,5"/>
-                        <TextBlock FontSize="16" FontWeight="Bold" Foreground="#2196F3">
-                            <Run Text="{Binding Devices.Count, Mode=OneWay}"/>
-                            <Run Text=" 个设备" FontSize="12"/>
-                        </TextBlock>
+                        <Border BorderBrush="#E0E0E0" BorderThickness="0,1,0,0" Padding="0,10,0,0" Margin="0,10,0,0">
+                            <StackPanel>
+                                <TextBlock Text="数据更新" FontSize="11" Foreground="#666" Margin="0,0,0,5"/>
+                                <TextBlock FontSize="12" FontWeight="Bold" Foreground="#2196F3">
+                                    <Run Text="{Binding DataRate, StringFormat={}{0:F1}, Mode=OneWay}"/>
+                                    <Run Text=" 条/秒" FontSize="11" Foreground="#666"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </Border>
                     </StackPanel>
-                </StackPanel>
+                </Grid>
             </ui:Card>
         </Grid>
 
             <!-- 右侧数据显示区 -->
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="400" MinHeight="250"/>
+                    <RowDefinition Height="0.5*" MinHeight="250"/>
                     <RowDefinition Height="5"/>
-                    <RowDefinition Height="*" MinHeight="200"/>
+                    <RowDefinition Height="0.5*" MinHeight="200"/>
                 </Grid.RowDefinitions>
 
                 <!-- 上部：实时图表 -->
-                <ui:Card Grid.Row="0" Padding="10">
+                <ui:Card Grid.Row="0" Padding="12,12,12,12">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -278,7 +284,9 @@
                         <TextBlock Grid.Row="0" Text="实时曲线" FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
 
                         <!-- ScottPlot实时图表 -->
-                        <scottplot:WpfPlot x:Name="ChartPlot" Grid.Row="1"/>
+                        <Border Grid.Row="1" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="4">
+                            <scottplot:WpfPlot x:Name="ChartPlot"/>
+                        </Border>
                     </Grid>
                 </ui:Card>
 
@@ -287,12 +295,12 @@
                              HorizontalAlignment="Stretch"
                              VerticalAlignment="Center"
                              Height="5"
-                             Background="#E0E0E0"
-                             ShowsPreview="True"
+                             Background="Transparent"
+                             ShowsPreview="False"
                              Cursor="SizeNS"/>
 
                 <!-- 下部：数据表格 -->
-                <ui:Card Grid.Row="2" Padding="10">
+                <ui:Card Grid.Row="2" Padding="12,12,12,12">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -310,28 +318,31 @@
                                  CanUserResizeRows="False"
                                  HeadersVisibility="Column"
                                  GridLinesVisibility="All"
-                                 RowHeight="40"
-                                 AlternatingRowBackground="#F5F5F5">
+                                 RowHeight="44"
+                                 AlternatingRowBackground="#FAFAFA"
+                                 Background="White"
+                                 BorderBrush="#E0E0E0"
+                                 BorderThickness="1">
 
                             <DataGrid.Columns>
                                 <!-- 设备名称列 -->
-                                <DataGridTextColumn Header="设备名称" Binding="{Binding Definition.Name}" Width="0.15*" MinWidth="120">
+                                <DataGridTextColumn Header="设备名称" Binding="{Binding Definition.Name}" Width="0.15*" MinWidth="110">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="FontWeight" Value="Bold"/>
                                             <Setter Property="VerticalAlignment" Value="Center"/>
-                                            <Setter Property="Margin" Value="8,0"/>
+                                            <Setter Property="Margin" Value="10,0"/>
                                             <Setter Property="FontSize" Value="13"/>
                                         </Style>
                                     </DataGridTextColumn.ElementStyle>
                                 </DataGridTextColumn>
 
                                 <!-- 状态列 -->
-                                <DataGridTemplateColumn Header="状态" Width="0.08*" MinWidth="75">
+                                <DataGridTemplateColumn Header="状态" Width="0.08*" MinWidth="70">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                <Ellipse Width="10" Height="10" Margin="0,0,6,0">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <Ellipse Width="9" Height="9" Margin="0,0,6,0">
                                                     <Ellipse.Style>
                                                         <Style TargetType="Ellipse">
                                                             <Setter Property="Fill" Value="#F44336"/>
@@ -350,38 +361,42 @@
                                 </DataGridTemplateColumn>
 
                                 <!-- 最后更新时间列 -->
-                                <DataGridTextColumn Header="最后更新" Binding="{Binding LastUpdateTime, StringFormat={}{0:HH:mm:ss}}" Width="0.12*" MinWidth="90">
+                                <DataGridTextColumn Header="最后更新" Binding="{Binding LastUpdateTime, StringFormat={}{0:HH:mm:ss}}" Width="0.11*" MinWidth="85">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="VerticalAlignment" Value="Center"/>
                                             <Setter Property="HorizontalAlignment" Value="Center"/>
                                             <Setter Property="FontSize" Value="12"/>
+                                            <Setter Property="Foreground" Value="#666"/>
                                         </Style>
                                     </DataGridTextColumn.ElementStyle>
                                 </DataGridTextColumn>
 
                                 <!-- 通道数据列 -->
-                                <DataGridTemplateColumn Header="通道数据" Width="0.65*" MinWidth="250">
+                                <DataGridTemplateColumn Header="通道数据" Width="0.66*" MinWidth="250">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <ItemsControl ItemsSource="{Binding ChannelData}">
-                                                <ItemsControl.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <WrapPanel/>
-                                                    </ItemsPanelTemplate>
-                                                </ItemsControl.ItemsPanel>
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Border BorderBrush="LightGray" BorderThickness="1" Margin="2" Padding="5,2" CornerRadius="3">
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <TextBlock Text="{Binding Definition.Name}" Margin="0,0,3,0" FontSize="11"/>
-                                                                <TextBlock Text="{Binding FormattedValue}" FontWeight="Bold" Foreground="#2196F3" FontSize="11"/>
-                                                                <TextBlock Text="{Binding Definition.Unit, StringFormat={} {0}}" Margin="2,0,0,0" FontSize="11"/>
-                                                            </StackPanel>
-                                                        </Border>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
+                                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                                                <ItemsControl ItemsSource="{Binding ChannelData}" Margin="6,4">
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <WrapPanel/>
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Border Background="#F0F7FF" BorderBrush="#B3D9FF" BorderThickness="1"
+                                                                   Margin="3,2" Padding="7,3" CornerRadius="3">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="{Binding Definition.Name}" Margin="0,0,4,0" FontSize="11" Foreground="#666"/>
+                                                                    <TextBlock Text="{Binding FormattedValue}" FontWeight="Bold" Foreground="#1976D2" FontSize="11"/>
+                                                                    <TextBlock Text="{Binding Definition.Unit, StringFormat={} {0}}" Margin="2,0,0,0" FontSize="11" Foreground="#666"/>
+                                                                </StackPanel>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </ScrollViewer>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -391,13 +406,28 @@
                             <DataGrid.ColumnHeaderStyle>
                                 <Style TargetType="DataGridColumnHeader">
                                     <Setter Property="Background" Value="#E3F2FD"/>
+                                    <Setter Property="Foreground" Value="#1565C0"/>
                                     <Setter Property="FontWeight" Value="Bold"/>
+                                    <Setter Property="FontSize" Value="13"/>
                                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                    <Setter Property="Padding" Value="10,8"/>
-                                    <Setter Property="BorderBrush" Value="Gray"/>
-                                    <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                    <Setter Property="Padding" Value="10,10"/>
+                                    <Setter Property="BorderBrush" Value="#BBDEFB"/>
+                                    <Setter Property="BorderThickness" Value="0,0,1,2"/>
                                 </Style>
                             </DataGrid.ColumnHeaderStyle>
+
+                            <!-- 行样式 -->
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow">
+                                    <Setter Property="Background" Value="White"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#F5F5F5"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>
                         </DataGrid>
                     </Grid>
                 </ui:Card>

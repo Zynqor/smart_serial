@@ -189,18 +189,19 @@ public partial class MonitorViewModel : ObservableObject
     /// 关闭串口
     /// </summary>
     [RelayCommand]
-    private void ClosePort()
+    private async Task ClosePort()
     {
         try
         {
-            // 先停止监控
+            // 先停止监控（异步执行避免UI卡顿）
             if (IsMonitoring)
             {
-                _pollingService.Stop();
+                await Task.Run(() => _pollingService.Stop());
                 IsMonitoring = false;
             }
 
-            _serialPort.Close();
+            // 异步关闭串口
+            await Task.Run(() => _serialPort.Close());
             IsSerialConnected = false;
             StatusText = "未连接";
             _loggingService.Information("串口已关闭");
@@ -208,7 +209,10 @@ public partial class MonitorViewModel : ObservableObject
         catch (Exception ex)
         {
             _loggingService.Error($"关闭串口失败: {ex.Message}");
-            MessageBox.Show($"关闭串口失败:\n{ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                MessageBox.Show($"关闭串口失败:\n{ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+            });
         }
     }
 
@@ -324,11 +328,12 @@ public partial class MonitorViewModel : ObservableObject
     /// 停止监控
     /// </summary>
     [RelayCommand]
-    private void StopMonitoring()
+    private async Task StopMonitoring()
     {
         try
         {
-            _pollingService.Stop();
+            // 异步停止轮询服务避免UI卡顿
+            await Task.Run(() => _pollingService.Stop());
             IsMonitoring = false;
             StatusText = "已停止";
             _loggingService.Information("停止监控");
@@ -476,14 +481,19 @@ public partial class MonitorViewModel : ObservableObject
                         dataList.RemoveAt(0);
                     }
 
-                    // 散点图已经绑定到dataList，只需标记需要刷新
-                    if (_scatterPlots.ContainsKey(key))
+                    // 更新散点图数据
+                    if (_scatterPlots.TryGetValue(key, out var scatter))
                     {
+                        scatter.Data.Clear();
+                        foreach (var coord in dataList)
+                        {
+                            scatter.Data.Add(coord);
+                        }
                         needsRefresh = true;
                     }
                 }
 
-                // 自动调整坐标轴
+                // 自动调整坐标轴并刷新
                 if (needsRefresh)
                 {
                     _chartPlot.Plot.Axes.AutoScale();

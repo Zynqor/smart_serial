@@ -112,6 +112,13 @@ public partial class MainWindow : Window
         MessageBox.Show("导出功能开发中...", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
+    private void Settings_Click(object sender, RoutedEventArgs e)
+    {
+        // 打开设置窗口或对话框
+        MessageBox.Show("系统设置功能开发中...\n\n当前可用设置：\n- 数据库优化\n- 数据备份\n- 数据清理",
+            "系统设置", MessageBoxButton.OK, MessageBoxImage.Information);
+    }
+
     private void Exit_Click(object sender, RoutedEventArgs e)
     {
         Close();
