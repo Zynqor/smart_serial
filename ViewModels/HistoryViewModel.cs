@@ -303,7 +303,7 @@ public partial class HistoryViewModel : ObservableObject
             {
                 await Task.Run(() =>
                 {
-                    _exportService.ExportDataToExcel(DataRecords.ToList(), dialog.FileName);
+                    _exportService.ExportDeviceDataToExcel(DataRecords.ToList(), dialog.FileName);
                 });
 
                 MessageBox.Show($"数据已导出到:\n{dialog.FileName}", "成功", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -341,7 +341,7 @@ public partial class HistoryViewModel : ObservableObject
             {
                 await Task.Run(() =>
                 {
-                    _exportService.ExportDataToCsv(DataRecords.ToList(), dialog.FileName);
+                    _exportService.ExportDeviceDataToCsv(DataRecords.ToList(), dialog.FileName);
                 });
 
                 MessageBox.Show($"数据已导出到:\n{dialog.FileName}", "成功", MessageBoxButton.OK, MessageBoxImage.Information);

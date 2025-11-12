@@ -279,7 +279,7 @@ public partial class MonitorViewModel : ObservableObject
                     scatter.Color = color;
                     scatter.LineWidth = 2;
                     scatter.MarkerSize = 0; // 不显示标记点
-                    scatter.Label = $"{device.Definition.Name} - {channel.Definition.Name}";
+                    scatter.LegendText = $"{device.Definition.Name} - {channel.Definition.Name}";
 
                     _scatterPlots[key] = scatter;
                 }
@@ -352,7 +352,7 @@ public partial class MonitorViewModel : ObservableObject
                         scatter.Color = color;
                         scatter.LineWidth = 2;
                         scatter.MarkerSize = 0;
-                        scatter.Label = $"{deviceDef.Name} - {channelRuntime.Definition.Name}";
+                        scatter.LegendText = $"{deviceDef.Name} - {channelRuntime.Definition.Name}";
                         _scatterPlots[key] = scatter;
                     }
 
@@ -365,11 +365,9 @@ public partial class MonitorViewModel : ObservableObject
                         dataList.RemoveAt(0);
                     }
 
-                    // 更新散点图数据
-                    if (_scatterPlots.TryGetValue(key, out var scatterPlot))
+                    // 散点图已经绑定到dataList，只需标记需要刷新
+                    if (_scatterPlots.ContainsKey(key))
                     {
-                        scatterPlot.Data.Clear();
-                        scatterPlot.Data.AddRange(dataList);
                         needsRefresh = true;
                     }
                 }

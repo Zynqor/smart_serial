@@ -92,8 +92,8 @@ public partial class SettingsViewModel : ObservableObject
     {
         try
         {
-            AlarmSoundEnabled = _settingsService.GetSetting("AlarmSoundEnabled", true);
-            AutoCleanupDays = _settingsService.GetSetting("AutoCleanupDays", 30);
+            AlarmSoundEnabled = _settingsService.GetSetting<bool>("AlarmSoundEnabled", true);
+            AutoCleanupDays = _settingsService.GetSetting<int>("AutoCleanupDays", 30);
         }
         catch (Exception ex)
         {
@@ -109,8 +109,8 @@ public partial class SettingsViewModel : ObservableObject
     {
         try
         {
-            _settingsService.SaveSetting("AlarmSoundEnabled", AlarmSoundEnabled);
-            _settingsService.SaveSetting("AutoCleanupDays", AutoCleanupDays);
+            _settingsService.SetSetting("AlarmSoundEnabled", AlarmSoundEnabled);
+            _settingsService.SetSetting("AutoCleanupDays", AutoCleanupDays);
 
             _loggingService.Information("设置已保存");
             MessageBox.Show("设置已保存！", "成功", MessageBoxButton.OK, MessageBoxImage.Information);

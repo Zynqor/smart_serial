@@ -148,19 +148,9 @@ public partial class DeviceConfigViewModel : ObservableObject
     {
         try
         {
-            if (_serialPort.IsOpen)
-            {
-                SelectedPort = _serialPort.PortName;
-                SelectedBaudRate = _serialPort.BaudRate;
-                SelectedDataBits = _serialPort.DataBits;
-                SelectedStopBits = _serialPort.StopBits.ToString();
-                SelectedParity = _serialPort.Parity.ToString();
-                IsConnected = true;
-            }
-            else
-            {
-                IsConnected = false;
-            }
+            IsConnected = _serialPort.IsOpen;
+            // 注意：ISerialPortService接口不暴露串口参数属性
+            // 如果需要显示当前配置，需要在ViewModel中缓存
         }
         catch (Exception ex)
         {
@@ -184,13 +174,8 @@ public partial class DeviceConfigViewModel : ObservableObject
         {
             _serialPort.Close();
 
-            _serialPort.PortName = SelectedPort;
-            _serialPort.BaudRate = SelectedBaudRate;
-            _serialPort.DataBits = SelectedDataBits;
-            _serialPort.StopBits = Enum.Parse<System.IO.Ports.StopBits>(SelectedStopBits);
-            _serialPort.Parity = Enum.Parse<System.IO.Ports.Parity>(SelectedParity);
-
-            _serialPort.Open();
+            // 使用ISerialPortService.Open方法打开串口
+            _serialPort.Open(SelectedPort, SelectedBaudRate, SelectedDataBits, SelectedParity, SelectedStopBits);
 
             IsConnected = true;
             _loggingService.Information($"串口已打开: {SelectedPort}");

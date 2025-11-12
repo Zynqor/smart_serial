@@ -169,7 +169,7 @@ public partial class AlarmViewModel : ObservableObject
             await Task.Run(() =>
             {
                 // 查询历史报警
-                var alarms = _databaseService.QueryAlarms(null, null, StartDate, EndDate, 1000);
+                var alarms = _databaseService.QueryAlarms(null, null, StartDate, EndDate);
 
                 // 查询统计信息
                 var stats = _databaseService.GetAlarmStatistics(StartDate, EndDate);
@@ -188,8 +188,8 @@ public partial class AlarmViewModel : ObservableObject
                     UpperLimitAlarmCount = alarms.Count(a => a.AlarmType == AlarmType.UpperLimit);
                     LowerLimitAlarmCount = alarms.Count(a => a.AlarmType == AlarmType.LowerLimit);
 
-                    var resolvedAlarms = alarms.Where(a => a.Status == AlarmStatus.Resolved && a.DurationSeconds > 0);
-                    AverageDuration = resolvedAlarms.Any() ? resolvedAlarms.Average(a => a.DurationSeconds) : 0;
+                    var resolvedAlarms = alarms.Where(a => a.Status == AlarmStatus.Resolved && a.Duration.HasValue && a.Duration.Value > 0);
+                    AverageDuration = resolvedAlarms.Any() ? resolvedAlarms.Average(a => a.Duration!.Value) : 0;
 
                     // 按设备统计
                     DeviceStatistics.Clear();
@@ -238,7 +238,7 @@ public partial class AlarmViewModel : ObservableObject
 
             // 手动更新UI中的报警状态
             SelectedActiveAlarm.Status = AlarmStatus.Acknowledged;
-            SelectedActiveAlarm.AcknowledgedTime = DateTime.Now;
+            // 注意：AlarmRecord模型中没有AcknowledgedTime属性
 
             _loggingService.Information($"已确认报警: {SelectedActiveAlarm.DeviceName} - {SelectedActiveAlarm.ChannelName}");
         }
@@ -272,7 +272,6 @@ public partial class AlarmViewModel : ObservableObject
             try
             {
                 var activeAlarmList = ActiveAlarms.Where(a => a.Status == AlarmStatus.Active).ToList();
-                var acknowledgeTime = DateTime.Now;
 
                 foreach (var alarm in activeAlarmList)
                 {
@@ -280,7 +279,7 @@ public partial class AlarmViewModel : ObservableObject
 
                     // 手动更新UI中的报警状态
                     alarm.Status = AlarmStatus.Acknowledged;
-                    alarm.AcknowledgedTime = acknowledgeTime;
+                    // 注意：AlarmRecord模型中没有AcknowledgedTime属性
                 }
 
                 _loggingService.Information($"已确认 {activeAlarmList.Count} 条活动报警");

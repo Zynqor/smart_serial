@@ -28,11 +28,11 @@ public partial class MonitorView : UserControl
         ChartPlot.Plot.YLabel("数值");
 
         // 设置图表样式
-        ChartPlot.Plot.Style.Background(System.Drawing.Color.White);
-        ChartPlot.Plot.Style.FigureBackground(System.Drawing.Color.White);
+        ChartPlot.Plot.FigureBackground.Color = ScottPlot.Color.FromHex("#FFFFFF");
+        ChartPlot.Plot.DataBackground.Color = ScottPlot.Color.FromHex("#FFFFFF");
 
         // 启用图例
-        ChartPlot.Plot.Legend(location: Alignment.UpperRight);
+        ChartPlot.Plot.ShowLegend(Alignment.UpperRight);
 
         // 刷新图表
         ChartPlot.Refresh();
