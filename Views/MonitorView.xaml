@@ -55,7 +55,7 @@
             </StackPanel>
 
             <!-- 右侧统计信息 -->
-            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="15">
+            <StackPanel Grid.Column="2" Orientation="Horizontal">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="在线设备: " FontSize="13"/>
                     <TextBlock Text="{Binding Devices.Count}" FontSize="13" FontWeight="Bold" Foreground="#4CAF50"/>
