@@ -481,14 +481,9 @@ public partial class MonitorViewModel : ObservableObject
                         dataList.RemoveAt(0);
                     }
 
-                    // 更新散点图数据
-                    if (_scatterPlots.TryGetValue(key, out var scatter))
+                    // 标记需要刷新（散点图已经引用了dataList，修改dataList会自动更新scatter）
+                    if (_scatterPlots.ContainsKey(key))
                     {
-                        scatter.Data.Clear();
-                        foreach (var coord in dataList)
-                        {
-                            scatter.Data.Add(coord);
-                        }
                         needsRefresh = true;
                     }
                 }
