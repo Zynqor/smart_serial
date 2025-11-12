@@ -34,30 +34,30 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- 第一行：日期范围选择 -->
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="开始日期:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="开始日期:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="13"/>
                 <DatePicker Grid.Row="0" Grid.Column="1" SelectedDate="{Binding StartDate, Mode=TwoWay}"
-                           VerticalAlignment="Center" Height="38" Padding="8,0"/>
+                           VerticalAlignment="Center" Height="38" Padding="8,0" FontSize="13"/>
 
-                <TextBlock Grid.Row="0" Grid.Column="3" Text="结束日期:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <TextBlock Grid.Row="0" Grid.Column="3" Text="结束日期:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="13"/>
                 <DatePicker Grid.Row="0" Grid.Column="4" SelectedDate="{Binding EndDate, Mode=TwoWay}"
-                           VerticalAlignment="Center" Height="38" Padding="8,0"/>
+                           VerticalAlignment="Center" Height="38" Padding="8,0" FontSize="13"/>
 
-                <TextBlock Grid.Row="0" Grid.Column="6" Text="设备:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <TextBlock Grid.Row="0" Grid.Column="6" Text="设备:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="13"/>
                 <ComboBox Grid.Row="0" Grid.Column="7" ItemsSource="{Binding Devices}"
                          SelectedItem="{Binding SelectedDevice, Mode=TwoWay}"
                          DisplayMemberPath="Name"
-                         VerticalAlignment="Center" Height="36" Padding="10,0"/>
+                         VerticalAlignment="Center" Height="38" Padding="10,0" FontSize="13"/>
 
                 <!-- 第二行：设备和通道选择 -->
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="通道:" VerticalAlignment="Center" Margin="0,10,10,0"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="通道:" VerticalAlignment="Center" Margin="0,10,10,0" FontSize="13"/>
                 <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Channels}"
                          SelectedItem="{Binding SelectedChannel, Mode=TwoWay}"
                          DisplayMemberPath="Name"
-                         VerticalAlignment="Center" Height="36" Padding="10,0" Margin="0,10,0,0"/>
+                         VerticalAlignment="Center" Height="38" Padding="10,0" Margin="0,10,0,0" FontSize="13"/>
 
-                <TextBlock Grid.Row="1" Grid.Column="3" Text="每页记录数:" VerticalAlignment="Center" Margin="0,10,10,0"/>
+                <TextBlock Grid.Row="1" Grid.Column="3" Text="每页记录数:" VerticalAlignment="Center" Margin="0,10,10,0" FontSize="13"/>
                 <ComboBox Grid.Row="1" Grid.Column="4" SelectedValue="{Binding PageSize, Mode=TwoWay}"
-                         VerticalAlignment="Center" Height="36" Padding="10,0" Margin="0,10,0,0">
+                         VerticalAlignment="Center" Height="38" Padding="10,0" Margin="0,10,0,0" FontSize="13">
                     <ComboBoxItem Content="50" Tag="50"/>
                     <ComboBoxItem Content="100" Tag="100" IsSelected="True"/>
                     <ComboBoxItem Content="200" Tag="200"/>
@@ -68,12 +68,15 @@
                 <!-- 操作按钮 -->
                 <StackPanel Grid.Row="1" Grid.Column="7" Orientation="Horizontal" Margin="0,10,0,0">
                     <ui:Button Content="查询" Command="{Binding QueryDataCommand}"
-                              Appearance="Primary" Width="100" Height="32"
-                              IsEnabled="{Binding IsQuerying, Converter={StaticResource InverseBooleanConverter}}"/>
+                              Appearance="Primary" Width="100" Height="38"
+                              IsEnabled="{Binding IsQuerying, Converter={StaticResource InverseBooleanConverter}}"
+                              FontSize="13"/>
                     <ui:Button Content="导出Excel" Command="{Binding ExportExcelCommand}"
-                              Appearance="Secondary" Width="100" Height="32" Margin="10,0,0,0"/>
+                              Appearance="Secondary" Width="100" Height="38" Margin="10,0,0,0"
+                              FontSize="13"/>
                     <ui:Button Content="导出CSV" Command="{Binding ExportCsvCommand}"
-                              Appearance="Secondary" Width="100" Height="32" Margin="10,0,0,0"/>
+                              Appearance="Secondary" Width="100" Height="38" Margin="10,0,0,0"
+                              FontSize="13"/>
                 </StackPanel>
             </Grid>
         </ui:Card>

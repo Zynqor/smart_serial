@@ -226,22 +226,25 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Grid.Column="0" Text="开始日期:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBlock Grid.Column="0" Text="开始日期:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="13"/>
                         <DatePicker Grid.Column="1" SelectedDate="{Binding StartDate, Mode=TwoWay}"
-                                   VerticalAlignment="Center" Height="32"/>
+                                   VerticalAlignment="Center" Height="38" Padding="8,0" FontSize="13"/>
 
-                        <TextBlock Grid.Column="3" Text="结束日期:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBlock Grid.Column="3" Text="结束日期:" VerticalAlignment="Center" Margin="0,0,10,0" FontSize="13"/>
                         <DatePicker Grid.Column="4" SelectedDate="{Binding EndDate, Mode=TwoWay}"
-                                   VerticalAlignment="Center" Height="32"/>
+                                   VerticalAlignment="Center" Height="38" Padding="8,0" FontSize="13"/>
 
                         <StackPanel Grid.Column="6" Orientation="Horizontal">
                             <ui:Button Content="查询" Command="{Binding QueryHistoryCommand}"
-                                      Appearance="Primary" Width="80" Height="32"
-                                      IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}"/>
+                                      Appearance="Primary" Width="80" Height="38"
+                                      IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}"
+                                      FontSize="13"/>
                             <ui:Button Content="导出Excel" Command="{Binding ExportAlarmsCommand}"
-                                      Appearance="Secondary" Width="90" Height="32" Margin="10,0,0,0"/>
+                                      Appearance="Secondary" Width="90" Height="38" Margin="10,0,0,0"
+                                      FontSize="13"/>
                             <ui:Button Content="清除已解除" Command="{Binding ClearResolvedCommand}"
-                                      Appearance="Secondary" Width="90" Height="32" Margin="10,0,0,0"/>
+                                      Appearance="Secondary" Width="90" Height="38" Margin="10,0,0,0"
+                                      FontSize="13"/>
                         </StackPanel>
                     </Grid>
 

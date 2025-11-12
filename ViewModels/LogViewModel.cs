@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using SerialProtocolAssistant.Services;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -15,6 +16,17 @@ public partial class LogViewModel : ObservableObject
     public LogViewModel(ILoggingService loggingService)
     {
         loggingService.LogStream.Subscribe(new LogObserver(this));
+    }
+
+    /// <summary>
+    /// 清空所有日志
+    /// </summary>
+    public void ClearLogs()
+    {
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+            LogMessages.Clear();
+        });
     }
 
     private class LogObserver : IObserver<string>
