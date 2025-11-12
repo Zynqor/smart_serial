@@ -14,8 +14,12 @@ public partial class MainWindow : Window
     private readonly IExportService _exportService;
     private readonly ILoggingService _loggingService;
 
+    // 新的 ViewModels（多设备监控）
+    public MonitorViewModel MonitorViewModel { get; }
+
     public MainWindow(
         MainWindowViewModel viewModel,
+        MonitorViewModel monitorViewModel,
         ISettingsService settingsService,
         IDatabaseService databaseService,
         IDeviceManagerService deviceManager,
@@ -24,6 +28,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         _viewModel = viewModel;
+        MonitorViewModel = monitorViewModel;
         _settingsService = settingsService;
         _databaseService = databaseService;
         _deviceManager = deviceManager;

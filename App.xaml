@@ -17,6 +17,7 @@
             <converters:BoolToAppearanceConverter x:Key="BoolToAppearanceConverter"/>
             <converters:BoolToAutoSendTextConverter x:Key="BoolToAutoSendTextConverter"/>
             <converters:BoolToAutoSendAppearanceConverter x:Key="BoolToAutoSendAppearanceConverter"/>
+            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

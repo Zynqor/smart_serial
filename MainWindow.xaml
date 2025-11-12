@@ -48,13 +48,7 @@
         <TabControl Grid.Row="1" Margin="0" Padding="0">
             <!-- Tab 1: 实时监控 -->
             <TabItem Header="实时监控" FontSize="14" Height="40">
-                <Grid>
-                    <TextBlock Text="实时监控页面 - 开发中..."
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center"
-                              FontSize="16"
-                              Foreground="Gray"/>
-                </Grid>
+                <views:MonitorView DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=MonitorViewModel}"/>
             </TabItem>
 
             <!-- Tab 2: 历史数据 -->
