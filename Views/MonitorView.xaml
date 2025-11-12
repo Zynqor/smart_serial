@@ -23,14 +23,14 @@
             </Grid.RowDefinitions>
 
             <!-- 第一行：串口连接 -->
-            <ui:Card Grid.Row="0" Padding="12">
+            <ui:Card Grid.Row="0" Padding="15,12">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="180"/>
-                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="200" MinWidth="150"/>
+                        <ColumnDefinition Width="15"/>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="130" MinWidth="100"/>
                         <ColumnDefinition Width="20"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
@@ -41,29 +41,29 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="5"/>
-                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="32"/>
                         </Grid.ColumnDefinitions>
                         <ComboBox Grid.Column="0" ItemsSource="{Binding AvailablePorts}"
                                  SelectedItem="{Binding SelectedPort, Mode=TwoWay}"
-                                 Height="32" VerticalAlignment="Center" FontSize="12"/>
+                                 Height="34" VerticalAlignment="Center" FontSize="13"/>
                         <ui:Button Grid.Column="2" Content="🔄" Command="{Binding RefreshPortsCommand}"
-                                  Width="30" Height="32" ToolTip="刷新串口列表" FontSize="11"/>
+                                  Width="32" Height="34" ToolTip="刷新串口列表" FontSize="12"/>
                     </Grid>
 
                     <TextBlock Grid.Column="3" Text="波特率:" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="13"/>
                     <ComboBox Grid.Column="4" ItemsSource="{Binding BaudRates}"
                              SelectedItem="{Binding SelectedBaudRate, Mode=TwoWay}"
-                             Height="32" VerticalAlignment="Center" FontSize="12"/>
+                             Height="34" VerticalAlignment="Center" FontSize="13"/>
 
                     <StackPanel Grid.Column="6" Orientation="Horizontal">
                         <ui:Button Content="连接串口" Command="{Binding OpenPortCommand}"
-                                  Appearance="Primary" Width="90" Height="32"
+                                  Appearance="Primary" Width="95" Height="34"
                                   IsEnabled="{Binding IsSerialConnected, Converter={StaticResource InverseBooleanConverter}}"
-                                  FontSize="12"/>
+                                  FontSize="13"/>
                         <ui:Button Content="断开串口" Command="{Binding ClosePortCommand}"
-                                  Appearance="Danger" Width="90" Height="32" Margin="10,0,0,0"
+                                  Appearance="Danger" Width="95" Height="34" Margin="10,0,0,0"
                                   IsEnabled="{Binding IsSerialConnected}"
-                                  FontSize="12"/>
+                                  FontSize="13"/>
 
                         <Border Width="2" Background="#E0E0E0" Margin="15,0"/>
 
@@ -156,12 +156,12 @@
         <!-- 主内容区 -->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.18*" MinWidth="220" MaxWidth="300"/>
+                <ColumnDefinition Width="0.82*"/>
             </Grid.ColumnDefinitions>
 
             <!-- 左侧图例面板 -->
-            <ui:Card Grid.Column="0" Margin="0,0,10,0" Padding="10">
+            <ui:Card Grid.Column="0" Margin="0,0,8,0" Padding="10">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -260,22 +260,23 @@
 
                             <DataGrid.Columns>
                                 <!-- 设备名称列 -->
-                                <DataGridTextColumn Header="设备名称" Binding="{Binding Definition.Name}" Width="150" MinWidth="100">
+                                <DataGridTextColumn Header="设备名称" Binding="{Binding Definition.Name}" Width="0.15*" MinWidth="120">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="FontWeight" Value="Bold"/>
                                             <Setter Property="VerticalAlignment" Value="Center"/>
-                                            <Setter Property="Margin" Value="5,0"/>
+                                            <Setter Property="Margin" Value="8,0"/>
+                                            <Setter Property="FontSize" Value="13"/>
                                         </Style>
                                     </DataGridTextColumn.ElementStyle>
                                 </DataGridTextColumn>
 
                                 <!-- 状态列 -->
-                                <DataGridTemplateColumn Header="状态" Width="80">
+                                <DataGridTemplateColumn Header="状态" Width="0.08*" MinWidth="75">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                <Ellipse Width="10" Height="10" Margin="0,0,5,0">
+                                                <Ellipse Width="10" Height="10" Margin="0,0,6,0">
                                                     <Ellipse.Style>
                                                         <Style TargetType="Ellipse">
                                                             <Setter Property="Fill" Value="#F44336"/>
@@ -287,24 +288,25 @@
                                                         </Style>
                                                     </Ellipse.Style>
                                                 </Ellipse>
-                                                <TextBlock Text="{Binding Status}" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding Status}" VerticalAlignment="Center" FontSize="12"/>
                                             </StackPanel>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
                                 <!-- 最后更新时间列 -->
-                                <DataGridTextColumn Header="最后更新" Binding="{Binding LastUpdateTime, StringFormat={}{0:HH:mm:ss}}" Width="100" MinWidth="80">
+                                <DataGridTextColumn Header="最后更新" Binding="{Binding LastUpdateTime, StringFormat={}{0:HH:mm:ss}}" Width="0.12*" MinWidth="90">
                                     <DataGridTextColumn.ElementStyle>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="VerticalAlignment" Value="Center"/>
                                             <Setter Property="HorizontalAlignment" Value="Center"/>
+                                            <Setter Property="FontSize" Value="12"/>
                                         </Style>
                                     </DataGridTextColumn.ElementStyle>
                                 </DataGridTextColumn>
 
-                                <!-- 通道数据列 - 这里简化显示前3个通道 -->
-                                <DataGridTemplateColumn Header="通道数据" Width="*" MinWidth="200">
+                                <!-- 通道数据列 -->
+                                <DataGridTemplateColumn Header="通道数据" Width="0.65*" MinWidth="250">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <ItemsControl ItemsSource="{Binding ChannelData}">

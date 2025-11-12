@@ -20,28 +20,28 @@
 
         <!-- 菜单栏 -->
         <Menu Grid.Row="0" Background="{ui:ThemeResource ControlFillColorDefaultBrush}"
-              Height="36" FontSize="13" VerticalAlignment="Stretch">
-            <MenuItem Header="文件(_F)" Height="36" Padding="12,6">
-                <MenuItem Header="加载协议配置..." Click="LoadProtocol_Click" Height="30" Padding="10,5"/>
-                <MenuItem Header="保存协议配置..." Click="SaveProtocol_Click" Height="30" Padding="10,5"/>
+              MinHeight="40" FontSize="14" VerticalContentAlignment="Center">
+            <MenuItem Header="文件(_F)" Padding="15,8">
+                <MenuItem Header="加载协议配置..." Click="LoadProtocol_Click" Padding="12,6"/>
+                <MenuItem Header="保存协议配置..." Click="SaveProtocol_Click" Padding="12,6"/>
                 <Separator/>
-                <MenuItem Header="导出当前数据..." Click="ExportCurrentData_Click" Height="30" Padding="10,5"/>
+                <MenuItem Header="导出当前数据..." Click="ExportCurrentData_Click" Padding="12,6"/>
                 <Separator/>
-                <MenuItem Header="退出" Click="Exit_Click" Height="30" Padding="10,5"/>
+                <MenuItem Header="退出" Click="Exit_Click" Padding="12,6"/>
             </MenuItem>
-            <MenuItem Header="视图(_V)" Height="36" Padding="12,6">
-                <MenuItem Header="刷新" Click="Refresh_Click" Height="30" Padding="10,5"/>
+            <MenuItem Header="视图(_V)" Padding="15,8">
+                <MenuItem Header="刷新" Click="Refresh_Click" Padding="12,6"/>
                 <Separator/>
-                <MenuItem Header="全屏" Click="FullScreen_Click" Height="30" Padding="10,5"/>
+                <MenuItem Header="全屏" Click="FullScreen_Click" Padding="12,6"/>
             </MenuItem>
-            <MenuItem Header="工具(_T)" Height="36" Padding="12,6">
-                <MenuItem Header="数据库优化..." Click="OptimizeDatabase_Click" Height="30" Padding="10,5"/>
-                <MenuItem Header="数据库备份..." Click="BackupDatabase_Click" Height="30" Padding="10,5"/>
+            <MenuItem Header="工具(_T)" Padding="15,8">
+                <MenuItem Header="数据库优化..." Click="OptimizeDatabase_Click" Padding="12,6"/>
+                <MenuItem Header="数据库备份..." Click="BackupDatabase_Click" Padding="12,6"/>
                 <Separator/>
-                <MenuItem Header="清理历史数据..." Click="CleanupData_Click" Height="30" Padding="10,5"/>
+                <MenuItem Header="清理历史数据..." Click="CleanupData_Click" Padding="12,6"/>
             </MenuItem>
-            <MenuItem Header="帮助(_H)" Height="36" Padding="12,6">
-                <MenuItem Header="关于" Click="About_Click" Height="30" Padding="10,5"/>
+            <MenuItem Header="帮助(_H)" Padding="15,8">
+                <MenuItem Header="关于" Click="About_Click" Padding="12,6"/>
             </MenuItem>
         </Menu>
 
