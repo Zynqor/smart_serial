@@ -36,11 +36,11 @@
                 <!-- 第一行：日期范围选择 -->
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="开始日期:" VerticalAlignment="Center" Margin="0,0,10,0"/>
                 <DatePicker Grid.Row="0" Grid.Column="1" SelectedDate="{Binding StartDate, Mode=TwoWay}"
-                           VerticalAlignment="Center" Height="32"/>
+                           VerticalAlignment="Center" Height="38" Padding="8,0"/>
 
                 <TextBlock Grid.Row="0" Grid.Column="3" Text="结束日期:" VerticalAlignment="Center" Margin="0,0,10,0"/>
                 <DatePicker Grid.Row="0" Grid.Column="4" SelectedDate="{Binding EndDate, Mode=TwoWay}"
-                           VerticalAlignment="Center" Height="32"/>
+                           VerticalAlignment="Center" Height="38" Padding="8,0"/>
 
                 <TextBlock Grid.Row="0" Grid.Column="6" Text="设备:" VerticalAlignment="Center" Margin="0,0,10,0"/>
                 <ComboBox Grid.Row="0" Grid.Column="7" ItemsSource="{Binding Devices}"

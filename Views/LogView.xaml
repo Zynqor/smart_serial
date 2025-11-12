@@ -15,11 +15,14 @@
 
             <TextBlock Grid.Row="0" Text="日志" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
 
-            <ListBox Grid.Row="1" ItemsSource="{Binding LogMessages}"
+            <ListBox x:Name="LogListBox"
+                     Grid.Row="1"
+                     ItemsSource="{Binding LogMessages}"
                      MinHeight="100"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                     SelectionMode="Extended">
+                     SelectionMode="Extended"
+                     PreviewMouseWheel="LogListBox_PreviewMouseWheel">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
                         <Setter Property="Padding" Value="5,2"/>
@@ -27,7 +30,7 @@
                 </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding}" FontFamily="Consolas" FontSize="11"/>
+                        <TextBlock x:Name="LogTextBlock" Text="{Binding}" FontFamily="Consolas" FontSize="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=LogFontSize}"/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
