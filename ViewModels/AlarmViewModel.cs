@@ -103,7 +103,6 @@ public partial class AlarmViewModel : ObservableObject
 
         // 订阅报警事件
         _alarmService.AlarmTriggered += OnAlarmTriggered;
-        _alarmService.AlarmAcknowledged += OnAlarmAcknowledged;
         _alarmService.AlarmResolved += OnAlarmResolved;
 
         // 加载活动报警
@@ -135,23 +134,6 @@ public partial class AlarmViewModel : ObservableObject
         {
             ActiveAlarms.Add(e.Alarm);
             _loggingService.Warning($"新报警: {e.Alarm.DeviceName} - {e.Alarm.ChannelName}");
-        });
-    }
-
-    /// <summary>
-    /// 报警确认事件处理
-    /// </summary>
-    private void OnAlarmAcknowledged(object? sender, AlarmAcknowledgedEventArgs e)
-    {
-        Application.Current.Dispatcher.Invoke(() =>
-        {
-            // 更新列表中的报警状态
-            var alarm = ActiveAlarms.FirstOrDefault(a => a.Id == e.Alarm.Id);
-            if (alarm != null)
-            {
-                alarm.Status = AlarmStatus.Acknowledged;
-                alarm.AcknowledgedTime = e.Alarm.AcknowledgedTime;
-            }
         });
     }
 
@@ -253,6 +235,11 @@ public partial class AlarmViewModel : ObservableObject
         try
         {
             _alarmService.AcknowledgeAlarm(SelectedActiveAlarm.Id);
+
+            // 手动更新UI中的报警状态
+            SelectedActiveAlarm.Status = AlarmStatus.Acknowledged;
+            SelectedActiveAlarm.AcknowledgedTime = DateTime.Now;
+
             _loggingService.Information($"已确认报警: {SelectedActiveAlarm.DeviceName} - {SelectedActiveAlarm.ChannelName}");
         }
         catch (Exception ex)
@@ -284,12 +271,20 @@ public partial class AlarmViewModel : ObservableObject
         {
             try
             {
-                foreach (var alarm in ActiveAlarms.Where(a => a.Status == AlarmStatus.Active).ToList())
+                var activeAlarmList = ActiveAlarms.Where(a => a.Status == AlarmStatus.Active).ToList();
+                var acknowledgeTime = DateTime.Now;
+
+                foreach (var alarm in activeAlarmList)
                 {
                     _alarmService.AcknowledgeAlarm(alarm.Id);
+
+                    // 手动更新UI中的报警状态
+                    alarm.Status = AlarmStatus.Acknowledged;
+                    alarm.AcknowledgedTime = acknowledgeTime;
                 }
-                _loggingService.Information($"已确认所有活动报警");
-                MessageBox.Show("所有报警已确认！", "成功", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                _loggingService.Information($"已确认 {activeAlarmList.Count} 条活动报警");
+                MessageBox.Show($"已确认 {activeAlarmList.Count} 条报警！", "成功", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
