@@ -2,6 +2,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Collections.Specialized;
+using System.Text;
 using SerialProtocolAssistant.ViewModels;
 
 namespace SerialProtocolAssistant.Views;
@@ -22,6 +23,9 @@ public partial class LogView : UserControl
     {
         InitializeComponent();
         DataContextChanged += LogView_DataContextChanged;
+
+        // 添加键盘快捷键处理
+        LogListBox.PreviewKeyDown += LogListBox_PreviewKeyDown;
     }
 
     /// <summary>
@@ -70,6 +74,78 @@ public partial class LogView : UserControl
                 LogFontSize = Math.Max(LogFontSize - 1, 8); // 最小8
             }
             e.Handled = true;
+        }
+    }
+
+    /// <summary>
+    /// 键盘快捷键处理
+    /// </summary>
+    private void LogListBox_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.C && Keyboard.Modifiers == ModifierKeys.Control)
+        {
+            CopySelectedLogs();
+            e.Handled = true;
+        }
+        else if (e.Key == Key.A && Keyboard.Modifiers == ModifierKeys.Control)
+        {
+            LogListBox.SelectAll();
+            e.Handled = true;
+        }
+    }
+
+    /// <summary>
+    /// 复制选中的日志
+    /// </summary>
+    private void CopySelectedLogs()
+    {
+        if (LogListBox.SelectedItems.Count > 0)
+        {
+            var sb = new StringBuilder();
+            foreach (var item in LogListBox.SelectedItems)
+            {
+                sb.AppendLine(item.ToString());
+            }
+
+            try
+            {
+                Clipboard.SetText(sb.ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"复制失败: {ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 复制菜单项点击事件
+    /// </summary>
+    private void CopyMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        CopySelectedLogs();
+    }
+
+    /// <summary>
+    /// 全选菜单项点击事件
+    /// </summary>
+    private void SelectAllMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        LogListBox.SelectAll();
+    }
+
+    /// <summary>
+    /// 清空日志菜单项点击事件
+    /// </summary>
+    private void ClearMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is LogViewModel viewModel)
+        {
+            var result = MessageBox.Show("确定要清空所有日志吗？", "确认", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                viewModel.ClearLogs();
+            }
         }
     }
 }

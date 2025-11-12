@@ -23,6 +23,30 @@
                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
                      SelectionMode="Extended"
                      PreviewMouseWheel="LogListBox_PreviewMouseWheel">
+                <ListBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="复制" Click="CopyMenuItem_Click" InputGestureText="Ctrl+C">
+                            <MenuItem.Icon>
+                                <ui:SymbolIcon Symbol="Copy24"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="全选" Click="SelectAllMenuItem_Click" InputGestureText="Ctrl+A">
+                            <MenuItem.Icon>
+                                <ui:SymbolIcon Symbol="SelectAll24"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <Separator/>
+                        <MenuItem Header="清空日志" Click="ClearMenuItem_Click">
+                            <MenuItem.Icon>
+                                <ui:SymbolIcon Symbol="Delete24"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+                <ListBox.InputBindings>
+                    <KeyBinding Key="C" Modifiers="Control" Command="{Binding CopyCommand}"/>
+                    <KeyBinding Key="A" Modifiers="Control" Command="{Binding SelectAllCommand}"/>
+                </ListBox.InputBindings>
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
                         <Setter Property="Padding" Value="5,2"/>

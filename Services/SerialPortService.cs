@@ -139,15 +139,17 @@ public class SerialPortService : ISerialPortService, IDisposable
         // Minimum Modbus RTU frame: address(1) + function(1) + data(min 2) + crc(2) = 6 bytes
         while (_receiveBuffer.Count >= 6)
         {
-            // For Modbus RTU function 0x04 (Read Input Registers):
+            // For Modbus RTU responses:
             // Response: address(1) + function(1) + byte_count(1) + data(N) + crc(2)
             if (_receiveBuffer.Count >= 3)
             {
                 byte address = _receiveBuffer[0];
                 byte function = _receiveBuffer[1];
 
-                // Check if this is a Modbus RTU response (function 0x04)
-                if (function == 0x04 && _receiveBuffer.Count >= 3)
+                // Check if this is a Modbus RTU response (function 0x03 or 0x04)
+                // 0x03 = Read Holding Registers
+                // 0x04 = Read Input Registers
+                if ((function == 0x03 || function == 0x04) && _receiveBuffer.Count >= 3)
                 {
                     byte byteCount = _receiveBuffer[2];
                     int expectedFrameLength = 3 + byteCount + 2; // address + function + count + data + crc

@@ -150,13 +150,13 @@
             <!-- 左侧面板 -->
             <Grid Grid.Column="0" Margin="0,0,8,0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="10"/>
-                    <RowDefinition Height="Auto" MinHeight="180"/>
+                    <RowDefinition Height="*" MinHeight="150"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="*" MinHeight="200"/>
                 </Grid.RowDefinitions>
 
                 <!-- 图例面板 - 占满剩余空间 -->
-                <ui:Card Grid.Row="0" Padding="12">
+                <ui:Card Grid.Row="0" Padding="12" Background="#FAFBFC">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -211,8 +211,17 @@
                 </Grid>
             </ui:Card>
 
-            <!-- 协议和设备信息面板 - 固定高度 -->
-            <ui:Card Grid.Row="2" Padding="15">
+            <!-- GridSplitter - 可拖动调整图例和统计面板大小 -->
+            <GridSplitter Grid.Row="1"
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Center"
+                         Height="5"
+                         Background="Transparent"
+                         ShowsPreview="False"
+                         Cursor="SizeNS"/>
+
+            <!-- 协议和设备信息面板 - 填充高度 -->
+            <ui:Card Grid.Row="2" Padding="15" Background="#F5F8FA">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -274,7 +283,7 @@
                 </Grid.RowDefinitions>
 
                 <!-- 上部：实时图表 -->
-                <ui:Card Grid.Row="0" Padding="12,12,12,12">
+                <ui:Card Grid.Row="0" Padding="12,12,12,12" Background="White">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -300,7 +309,7 @@
                              Cursor="SizeNS"/>
 
                 <!-- 下部：数据表格 -->
-                <ui:Card Grid.Row="2" Padding="12,12,12,12">
+                <ui:Card Grid.Row="2" Padding="12,12,12,12" Background="White">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
