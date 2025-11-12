@@ -1,3 +1,4 @@
+using System.IO;
 using Newtonsoft.Json;
 using SerialProtocolAssistant.Models;
 using System.Text;

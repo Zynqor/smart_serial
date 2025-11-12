@@ -1,6 +1,7 @@
 using Dapper;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace SerialProtocolAssistant.Services;
 
