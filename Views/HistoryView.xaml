@@ -15,7 +15,7 @@
         </Grid.RowDefinitions>
 
         <!-- 查询条件面板 -->
-        <ui:Card Grid.Row="0" Margin="0,0,0,10" Padding="15">
+        <ui:Card Grid.Row="0" Margin="0,0,0,10" Padding="15" Background="{StaticResource CardBackgroundBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -90,7 +90,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- 数据表格 -->
-            <ui:Card Grid.Column="0" Padding="0">
+            <ui:Card Grid.Column="0" Padding="0" Background="{StaticResource CardBackgroundBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -108,9 +108,9 @@
                              SelectionMode="Extended"
                              GridLinesVisibility="Horizontal"
                              HeadersVisibility="Column"
-                             AlternatingRowBackground="#FAFAFA"
-                             Background="White"
-                             BorderBrush="#E0E0E0"
+                             AlternatingRowBackground="{StaticResource SectionBackgroundBrush}"
+                             Background="{StaticResource CardBackgroundBrush}"
+                             BorderBrush="{StaticResource CardBorderBrush}"
                              BorderThickness="1"
                              RowHeight="36"
                              Margin="10,0,10,10">
@@ -179,7 +179,7 @@
                                         <Setter Property="VerticalAlignment" Value="Center"/>
                                         <Setter Property="HorizontalAlignment" Value="Center"/>
                                         <Setter Property="FontSize" Value="11"/>
-                                        <Setter Property="Foreground" Value="#666"/>
+                                        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
@@ -189,7 +189,7 @@
                                         <Setter Property="VerticalAlignment" Value="Center"/>
                                         <Setter Property="HorizontalAlignment" Value="Center"/>
                                         <Setter Property="FontSize" Value="12"/>
-                                        <Setter Property="Foreground" Value="#666"/>
+                                        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
@@ -213,10 +213,10 @@
                         <!-- 行样式 -->
                         <DataGrid.RowStyle>
                             <Style TargetType="DataGridRow">
-                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Background" Value="{StaticResource CardBackgroundBrush}"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#F5F5F5"/>
+                                        <Setter Property="Background" Value="{StaticResource SectionBackgroundBrush}"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -226,7 +226,7 @@
             </ui:Card>
 
             <!-- 统计信息面板 - 占满列空间 -->
-            <ui:Card Grid.Column="2" Padding="15">
+            <ui:Card Grid.Column="2" Padding="15" Background="{StaticResource CardBackgroundBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -241,7 +241,7 @@
                                 <Border Background="#E3F2FD" BorderBrush="#BBDEFB" BorderThickness="1"
                                        Padding="12" Margin="0,0,0,10" CornerRadius="4">
                                     <StackPanel>
-                                        <TextBlock Text="总记录数" FontSize="11" Foreground="#666" Margin="0,0,0,5"/>
+                                        <TextBlock Text="总记录数" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,5"/>
                                         <TextBlock Text="{Binding TotalRecords}" FontSize="22" FontWeight="Bold" Foreground="#2196F3"/>
                                     </StackPanel>
                                 </Border>
@@ -249,7 +249,7 @@
                                 <Border Background="#F1F8E9" BorderBrush="#C5E1A5" BorderThickness="1"
                                        Padding="12" Margin="0,0,0,10" CornerRadius="4">
                                     <StackPanel>
-                                        <TextBlock Text="平均值" FontSize="11" Foreground="#666" Margin="0,0,0,5"/>
+                                        <TextBlock Text="平均值" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,5"/>
                                         <TextBlock Text="{Binding AverageValue, StringFormat=F2}" FontSize="22" FontWeight="Bold" Foreground="#4CAF50"/>
                                     </StackPanel>
                                 </Border>
@@ -257,7 +257,7 @@
                                 <Border Background="#FFEBEE" BorderBrush="#FFCDD2" BorderThickness="1"
                                        Padding="12" Margin="0,0,0,10" CornerRadius="4">
                                     <StackPanel>
-                                        <TextBlock Text="最大值" FontSize="11" Foreground="#666" Margin="0,0,0,5"/>
+                                        <TextBlock Text="最大值" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,5"/>
                                         <TextBlock Text="{Binding MaxValue, StringFormat=F2}" FontSize="22" FontWeight="Bold" Foreground="#FF5722"/>
                                     </StackPanel>
                                 </Border>
@@ -265,19 +265,19 @@
                                 <Border Background="#F3E5F5" BorderBrush="#E1BEE7" BorderThickness="1"
                                        Padding="12" CornerRadius="4">
                                     <StackPanel>
-                                        <TextBlock Text="最小值" FontSize="11" Foreground="#666" Margin="0,0,0,5"/>
+                                        <TextBlock Text="最小值" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,5"/>
                                         <TextBlock Text="{Binding MinValue, StringFormat=F2}" FontSize="22" FontWeight="Bold" Foreground="#9C27B0"/>
                                     </StackPanel>
                                 </Border>
                             </StackPanel>
 
-                            <Border Background="#FAFAFA" BorderBrush="#E0E0E0" BorderThickness="1"
+                            <Border Background="{StaticResource SectionBackgroundBrush}" BorderBrush="{StaticResource DividerBrush}" BorderThickness="1"
                                    Padding="20" CornerRadius="4"
                                    Visibility="{Binding HasStatistics, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
                                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                     <TextBlock Text="📊" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                                    <TextBlock Text="暂无统计信息" FontSize="12" Foreground="#999" HorizontalAlignment="Center"/>
-                                    <TextBlock Text="查询数据后显示" FontSize="11" Foreground="#BBB" HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                                    <TextBlock Text="暂无统计信息" FontSize="12" Foreground="{StaticResource TextTertiaryBrush}" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="查询数据后显示" FontSize="11" Foreground="{StaticResource TextTertiaryBrush}" HorizontalAlignment="Center" Margin="0,5,0,0"/>
                                 </StackPanel>
                             </Border>
                         </StackPanel>
@@ -287,7 +287,7 @@
         </Grid>
 
         <!-- 分页控件 -->
-        <ui:Card Grid.Row="2" Padding="10" Margin="0,10,0,0">
+        <ui:Card Grid.Row="2" Padding="10" Margin="0,10,0,0" Background="{StaticResource CardBackgroundBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <ui:Button Content="上一页" Command="{Binding PreviousPageCommand}"
                           Appearance="Secondary" Width="80" Height="32"/>

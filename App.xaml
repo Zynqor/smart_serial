@@ -12,6 +12,26 @@
                 <ui:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
 
+            <!-- Microsoft Fluent Design Color Palette -->
+            <SolidColorBrush x:Key="AppBackgroundBrush" Color="#F3F3F3"/>
+            <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="CardBorderBrush" Color="#E1E1E1"/>
+            <SolidColorBrush x:Key="SectionBackgroundBrush" Color="#FAFAFA"/>
+            <SolidColorBrush x:Key="AccentBrush" Color="#0078D4"/>
+            <SolidColorBrush x:Key="AccentHoverBrush" Color="#106EBE"/>
+            <SolidColorBrush x:Key="AccentPressedBrush" Color="#005A9E"/>
+            <SolidColorBrush x:Key="DividerBrush" Color="#EDEDED"/>
+            <SolidColorBrush x:Key="TextPrimaryBrush" Color="#1F1F1F"/>
+            <SolidColorBrush x:Key="TextSecondaryBrush" Color="#605E5C"/>
+            <SolidColorBrush x:Key="TextTertiaryBrush" Color="#8A8886"/>
+
+            <!-- Data Colors (Microsoft Fluent) -->
+            <SolidColorBrush x:Key="DataBlue" Color="#0078D4"/>
+            <SolidColorBrush x:Key="DataGreen" Color="#107C10"/>
+            <SolidColorBrush x:Key="DataRed" Color="#D13438"/>
+            <SolidColorBrush x:Key="DataOrange" Color="#FF8C00"/>
+            <SolidColorBrush x:Key="DataPurple" Color="#5C2D91"/>
+
             <!-- Converters -->
             <converters:BoolToConnectionTextConverter x:Key="BoolToConnectionTextConverter"/>
             <converters:BoolToAppearanceConverter x:Key="BoolToAppearanceConverter"/>

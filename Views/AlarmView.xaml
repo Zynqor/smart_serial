@@ -24,7 +24,7 @@
             </Grid.RowDefinitions>
 
             <!-- 当前活动报警 -->
-            <ui:Card Grid.Row="0" Margin="0,0,0,10" Padding="0">
+            <ui:Card Grid.Row="0" Margin="0,0,0,10" Padding="0" Background="{StaticResource CardBackgroundBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -67,9 +67,9 @@
                              SelectionMode="Single"
                              GridLinesVisibility="Horizontal"
                              HeadersVisibility="Column"
-                             AlternatingRowBackground="#FFEBEE"
-                             Background="White"
-                             BorderBrush="#E0E0E0"
+                             AlternatingRowBackground="{StaticResource SectionBackgroundBrush}"
+                             Background="{StaticResource CardBackgroundBrush}"
+                             BorderBrush="{StaticResource CardBorderBrush}"
                              BorderThickness="1"
                              RowHeight="38"
                              MaxHeight="250"
@@ -131,7 +131,7 @@
                                         <Setter Property="HorizontalAlignment" Value="Right"/>
                                         <Setter Property="Margin" Value="0,0,10,0"/>
                                         <Setter Property="FontSize" Value="12"/>
-                                        <Setter Property="Foreground" Value="#666"/>
+                                        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
@@ -152,7 +152,7 @@
                                         <Setter Property="VerticalAlignment" Value="Center"/>
                                         <Setter Property="HorizontalAlignment" Value="Center"/>
                                         <Setter Property="FontSize" Value="11"/>
-                                        <Setter Property="Foreground" Value="#666"/>
+                                        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
@@ -201,7 +201,7 @@
             </ui:Card>
 
             <!-- 历史报警 -->
-            <ui:Card Grid.Row="1" Padding="0">
+            <ui:Card Grid.Row="1" Padding="0" Background="{StaticResource CardBackgroundBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -258,9 +258,9 @@
                              SelectionMode="Single"
                              GridLinesVisibility="Horizontal"
                              HeadersVisibility="Column"
-                             AlternatingRowBackground="#FAFAFA"
-                             Background="White"
-                             BorderBrush="#E0E0E0"
+                             AlternatingRowBackground="{StaticResource SectionBackgroundBrush}"
+                             Background="{StaticResource CardBackgroundBrush}"
+                             BorderBrush="{StaticResource CardBorderBrush}"
                              BorderThickness="1"
                              RowHeight="36"
                              Margin="10,0,10,10">
@@ -321,7 +321,7 @@
                                         <Setter Property="HorizontalAlignment" Value="Right"/>
                                         <Setter Property="Margin" Value="0,0,10,0"/>
                                         <Setter Property="FontSize" Value="11"/>
-                                        <Setter Property="Foreground" Value="#666"/>
+                                        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
@@ -331,7 +331,7 @@
                                         <Setter Property="VerticalAlignment" Value="Center"/>
                                         <Setter Property="HorizontalAlignment" Value="Center"/>
                                         <Setter Property="FontSize" Value="11"/>
-                                        <Setter Property="Foreground" Value="#666"/>
+                                        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
@@ -341,7 +341,7 @@
                                         <Setter Property="VerticalAlignment" Value="Center"/>
                                         <Setter Property="HorizontalAlignment" Value="Center"/>
                                         <Setter Property="FontSize" Value="11"/>
-                                        <Setter Property="Foreground" Value="#666"/>
+                                        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
@@ -351,7 +351,7 @@
                                         <Setter Property="VerticalAlignment" Value="Center"/>
                                         <Setter Property="HorizontalAlignment" Value="Center"/>
                                         <Setter Property="FontSize" Value="11"/>
-                                        <Setter Property="Foreground" Value="#666"/>
+                                        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
@@ -384,10 +384,10 @@
                         <!-- 行样式 -->
                         <DataGrid.RowStyle>
                             <Style TargetType="DataGridRow">
-                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Background" Value="{StaticResource CardBackgroundBrush}"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#F5F5F5"/>
+                                        <Setter Property="Background" Value="{StaticResource SectionBackgroundBrush}"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -398,7 +398,7 @@
         </Grid>
 
         <!-- 右侧：统计信息 - 占满列空间 -->
-        <ui:Card Grid.Column="2" Padding="15">
+        <ui:Card Grid.Column="2" Padding="15" Background="{StaticResource CardBackgroundBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -411,7 +411,7 @@
                     <StackPanel VerticalAlignment="Top">
 
                     <!-- 总体统计 -->
-                    <Border BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="0,0,0,15" Margin="0,0,0,15">
+                    <Border BorderBrush="{StaticResource DividerBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,15" Margin="0,0,0,15">
                         <StackPanel>
                             <TextBlock Text="总体统计" FontSize="12" Foreground="Gray" Margin="0,0,0,10"/>
 
@@ -438,7 +438,7 @@
                     </Border>
 
                     <!-- 当前活动报警统计 -->
-                    <Border BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="0,0,0,15" Margin="0,0,0,15">
+                    <Border BorderBrush="{StaticResource DividerBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,15" Margin="0,0,0,15">
                         <StackPanel>
                             <TextBlock Text="当前活动报警" FontSize="12" Foreground="Gray" Margin="0,0,0,10"/>
 
@@ -456,7 +456,7 @@
                         <ItemsControl ItemsSource="{Binding DeviceStatistics}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Border BorderBrush="#E0E0E0" BorderThickness="1" Padding="10" Margin="0,0,0,10" Background="#FAFAFA">
+                                    <Border BorderBrush="{StaticResource DividerBrush}" BorderThickness="1" Padding="10" Margin="0,0,0,10" Background="{StaticResource SectionBackgroundBrush}">
                                         <StackPanel>
                                             <TextBlock Text="{Binding DeviceName}" FontSize="12" FontWeight="Bold" Margin="0,0,0,5"/>
                                             <StackPanel Orientation="Horizontal">

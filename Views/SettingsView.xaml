@@ -18,7 +18,7 @@
             <!-- 左侧：设置选项 -->
             <StackPanel Grid.Column="0">
                 <!-- 音效设置 -->
-                <ui:Card Margin="0,0,0,15" Padding="20">
+                <ui:Card Margin="0,0,0,15" Padding="20" Background="{StaticResource CardBackgroundBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
                     <StackPanel>
                         <TextBlock Text="音效设置" FontSize="16" FontWeight="Bold" Margin="0,0,0,20"/>
 
@@ -33,7 +33,7 @@
                 </ui:Card>
 
                 <!-- 数据库设置 -->
-                <ui:Card Margin="0,0,0,15" Padding="20">
+                <ui:Card Margin="0,0,0,15" Padding="20" Background="{StaticResource CardBackgroundBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
                     <StackPanel>
                         <TextBlock Text="数据库设置" FontSize="16" FontWeight="Bold" Margin="0,0,0,20"/>
 
@@ -61,7 +61,7 @@
                 </ui:Card>
 
                 <!-- 保存设置 -->
-                <ui:Card Padding="20">
+                <ui:Card Padding="20" Background="{StaticResource CardBackgroundBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
                     <StackPanel>
                         <ui:Button Content="保存所有设置" Command="{Binding SaveSettingsCommand}"
                                   Appearance="Primary" Width="150" Height="40" FontSize="14"
@@ -75,7 +75,7 @@
             <!-- 右侧：统计信息和关于 -->
             <StackPanel Grid.Column="2">
                 <!-- 数据库统计 -->
-                <ui:Card Margin="0,0,0,15" Padding="20">
+                <ui:Card Margin="0,0,0,15" Padding="20" Background="{StaticResource CardBackgroundBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
                     <StackPanel>
                         <Grid Margin="0,0,0,15">
                             <TextBlock Text="数据库统计" FontSize="16" FontWeight="Bold"/>
@@ -84,7 +84,7 @@
                                       HorizontalAlignment="Right"/>
                         </Grid>
 
-                        <Border BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="0,0,0,12" Margin="0,0,0,12">
+                        <Border BorderBrush="{StaticResource DividerBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,12" Margin="0,0,0,12">
                             <Grid>
                                 <TextBlock Text="数据库大小" FontSize="12" Foreground="Gray" VerticalAlignment="Center"/>
                                 <TextBlock Text="{Binding DatabaseSizeMB, StringFormat={}{0:F2} MB}"
@@ -93,7 +93,7 @@
                             </Grid>
                         </Border>
 
-                        <Border BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="0,0,0,12" Margin="0,0,0,12">
+                        <Border BorderBrush="{StaticResource DividerBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,12" Margin="0,0,0,12">
                             <Grid>
                                 <TextBlock Text="历史数据记录" FontSize="12" Foreground="Gray" VerticalAlignment="Center"/>
                                 <TextBlock Text="{Binding TotalDataRecords, StringFormat={}{0:N0}}"
@@ -102,7 +102,7 @@
                             </Grid>
                         </Border>
 
-                        <Border BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="0,0,0,12" Margin="0,0,0,12">
+                        <Border BorderBrush="{StaticResource DividerBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,12" Margin="0,0,0,12">
                             <Grid>
                                 <TextBlock Text="报警记录" FontSize="12" Foreground="Gray" VerticalAlignment="Center"/>
                                 <TextBlock Text="{Binding TotalAlarmRecords, StringFormat={}{0:N0}}"
@@ -111,7 +111,7 @@
                             </Grid>
                         </Border>
 
-                        <Border BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="0,0,0,12" Margin="0,0,0,12">
+                        <Border BorderBrush="{StaticResource DividerBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,12" Margin="0,0,0,12">
                             <StackPanel>
                                 <TextBlock Text="最早数据时间" FontSize="12" Foreground="Gray" Margin="0,0,0,5"/>
                                 <TextBlock Text="{Binding OldestDataTime}" FontSize="11"/>
@@ -128,7 +128,7 @@
                 </ui:Card>
 
                 <!-- 关于 -->
-                <ui:Card Padding="20">
+                <ui:Card Padding="20" Background="{StaticResource CardBackgroundBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
                     <StackPanel>
                         <TextBlock Text="关于" FontSize="16" FontWeight="Bold" Margin="0,0,0,20"/>
 
@@ -141,7 +141,7 @@
                                       HorizontalAlignment="Center"/>
                         </StackPanel>
 
-                        <Border BorderBrush="#E0E0E0" BorderThickness="0,1,0,1" Padding="0,15" Margin="0,0,0,15">
+                        <Border BorderBrush="{StaticResource DividerBrush}" BorderThickness="0,1,0,1" Padding="0,15" Margin="0,0,0,15">
                             <StackPanel>
                                 <TextBlock Text="功能特性" FontSize="12" FontWeight="Bold" Margin="0,0,0,10"/>
                                 <TextBlock Text="• 多设备RS-485通信" FontSize="11" Margin="0,3"/>

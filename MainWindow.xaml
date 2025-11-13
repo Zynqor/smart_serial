@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Title="RS-485多设备监控系统" Height="900" Width="1600"
         ResizeMode="CanResize"
-        Background="{ui:ThemeResource ApplicationBackgroundBrush}"
+        Background="{StaticResource AppBackgroundBrush}"
         Closing="Window_Closing">
 
     <Grid>
@@ -19,7 +19,8 @@
         </Grid.RowDefinitions>
 
         <!-- 菜单栏 -->
-        <Menu Grid.Row="0" Background="{ui:ThemeResource ControlFillColorDefaultBrush}"
+        <Menu Grid.Row="0" Background="{StaticResource CardBackgroundBrush}"
+              BorderBrush="{StaticResource DividerBrush}" BorderThickness="0,0,0,1"
               MinHeight="40" FontSize="14" VerticalContentAlignment="Center">
             <MenuItem Header="文件(_F)" Padding="15,8">
                 <MenuItem Header="加载协议配置..." Click="LoadProtocol_Click" Padding="12,6"/>
