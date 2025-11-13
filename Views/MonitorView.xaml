@@ -45,7 +45,8 @@
                     </Grid.ColumnDefinitions>
                     <ComboBox Grid.Column="0" ItemsSource="{Binding AvailablePorts}"
                              SelectedItem="{Binding SelectedPort, Mode=TwoWay}"
-                             Height="38" VerticalAlignment="Center" FontSize="13" Padding="8,0"/>
+                             Height="38" VerticalAlignment="Center" VerticalContentAlignment="Center"
+                             FontSize="13" Padding="8,0"/>
                     <ui:Button Grid.Column="2" Content="刷新" Command="{Binding RefreshPortsCommand}"
                               Width="50" Height="38" ToolTip="刷新串口列表" FontSize="12"
                               Padding="6,0"/>
@@ -55,7 +56,8 @@
                 <TextBlock Grid.Column="3" Text="波特率:" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="13"/>
                 <ComboBox Grid.Column="4" ItemsSource="{Binding BaudRates}"
                          SelectedItem="{Binding SelectedBaudRate, Mode=TwoWay}"
-                         Height="38" VerticalAlignment="Center" FontSize="13" Padding="8,0"/>
+                         Height="38" VerticalAlignment="Center" VerticalContentAlignment="Center"
+                         FontSize="13" Padding="8,0"/>
 
                 <!-- 串口连接按钮 -->
                 <ui:Button Grid.Column="6" Content="连接串口" Command="{Binding OpenPortCommand}"
@@ -152,15 +154,16 @@
             <!-- 左侧面板 -->
             <Grid Grid.Column="0" Margin="0,0,8,0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="400"/>
-                    <RowDefinition Height="5"/>
-                    <RowDefinition Height="*" MinHeight="250"/>
+                    <RowDefinition Height="0.55*" MinHeight="350"/>
+                    <RowDefinition Height="3"/>
+                    <RowDefinition Height="0.45*" MinHeight="250"/>
                 </Grid.RowDefinitions>
 
-                <!-- 图例面板 - 固定高度 -->
+                <!-- 图例面板 -->
                 <ui:Card Grid.Row="0" Padding="12"
                          Background="{StaticResource CardBackgroundBrush}"
-                         BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
+                         BorderBrush="{StaticResource CardBorderBrush}"
+                         BorderThickness="1,1,1,0">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -218,16 +221,19 @@
             <!-- GridSplitter - 可拖动调整图例和统计面板大小 -->
             <GridSplitter Grid.Row="1"
                          HorizontalAlignment="Stretch"
-                         VerticalAlignment="Center"
-                         Height="5"
-                         Background="{StaticResource DividerBrush}"
+                         VerticalAlignment="Stretch"
+                         Height="3"
+                         Background="{StaticResource CardBorderBrush}"
+                         BorderBrush="{StaticResource CardBorderBrush}"
+                         BorderThickness="1,0,1,0"
                          ShowsPreview="False"
                          Cursor="SizeNS"/>
 
             <!-- 协议和设备信息面板 - 填充剩余高度 -->
             <ui:Card Grid.Row="2" Padding="15"
                      Background="{StaticResource CardBackgroundBrush}"
-                     BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
+                     BorderBrush="{StaticResource CardBorderBrush}"
+                     BorderThickness="1,0,1,1">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -301,9 +307,33 @@
                         <TextBlock Grid.Row="0" Text="实时曲线" FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
 
                         <!-- ScottPlot实时图表 -->
-                        <Border Grid.Row="1" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1" CornerRadius="4">
-                            <scottplot:WpfPlot x:Name="ChartPlot"/>
-                        </Border>
+                        <Grid Grid.Row="1">
+                            <Border BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1" CornerRadius="4">
+                                <scottplot:WpfPlot x:Name="ChartPlot" MinHeight="300"/>
+                            </Border>
+
+                            <!-- 空数据提示 -->
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Devices.Count}" Value="0">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <StackPanel>
+                                    <TextBlock Text="暂无图表数据" FontSize="16" FontWeight="Bold"
+                                              Foreground="{StaticResource TextTertiaryBrush}"
+                                              HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                    <TextBlock Text="开始监控后将显示实时曲线" FontSize="12"
+                                              Foreground="{StaticResource TextTertiaryBrush}"
+                                              HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
                     </Grid>
                 </ui:Card>
 
@@ -328,20 +358,21 @@
 
                         <TextBlock Grid.Row="0" Text="实时数据" FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
 
-                        <DataGrid Grid.Row="1"
-                                 ItemsSource="{Binding Devices}"
-                                 AutoGenerateColumns="False"
-                                 IsReadOnly="True"
-                                 CanUserAddRows="False"
-                                 CanUserDeleteRows="False"
-                                 CanUserResizeRows="False"
-                                 HeadersVisibility="Column"
-                                 GridLinesVisibility="All"
-                                 RowHeight="44"
-                                 AlternatingRowBackground="{StaticResource SectionBackgroundBrush}"
-                                 Background="{StaticResource CardBackgroundBrush}"
-                                 BorderBrush="{StaticResource CardBorderBrush}"
-                                 BorderThickness="1">
+                        <Grid Grid.Row="1">
+                            <DataGrid ItemsSource="{Binding Devices}"
+                                     AutoGenerateColumns="False"
+                                     IsReadOnly="True"
+                                     CanUserAddRows="False"
+                                     CanUserDeleteRows="False"
+                                     CanUserResizeRows="False"
+                                     HeadersVisibility="Column"
+                                     GridLinesVisibility="All"
+                                     RowHeight="44"
+                                     MinHeight="200"
+                                     AlternatingRowBackground="{StaticResource SectionBackgroundBrush}"
+                                     Background="{StaticResource CardBackgroundBrush}"
+                                     BorderBrush="{StaticResource CardBorderBrush}"
+                                     BorderThickness="1">
 
                             <DataGrid.Columns>
                                 <!-- 设备名称列 -->
@@ -448,6 +479,29 @@
                                 </Style>
                             </DataGrid.RowStyle>
                         </DataGrid>
+
+                        <!-- 空数据提示 -->
+                        <Border HorizontalAlignment="Center" VerticalAlignment="Center"
+                                Visibility="{Binding Devices.Count, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Devices.Count}" Value="0">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <StackPanel>
+                                <TextBlock Text="暂无设备数据" FontSize="16" FontWeight="Bold"
+                                          Foreground="{StaticResource TextTertiaryBrush}"
+                                          HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                <TextBlock Text="请先加载协议配置并开始监控" FontSize="12"
+                                          Foreground="{StaticResource TextTertiaryBrush}"
+                                          HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
                     </Grid>
                 </ui:Card>
             </Grid>
