@@ -221,8 +221,10 @@
             <!-- GridSplitter - 可拖动调整图例和统计面板大小 -->
             <GridSplitter Grid.Row="1"
                          HorizontalAlignment="Stretch"
-                         VerticalAlignment="Center"
+                         VerticalAlignment="Stretch"
                          Height="3"
+                         ResizeDirection="Rows"
+                         ResizeBehavior="PreviousAndNext"
                          Background="{StaticResource CardBorderBrush}"
                          BorderBrush="{StaticResource CardBorderBrush}"
                          BorderThickness="1,0,1,0"
@@ -340,8 +342,10 @@
             <!-- GridSplitter - 可拖动调整图表和表格大小 -->
             <GridSplitter Grid.Row="1"
                          HorizontalAlignment="Stretch"
-                         VerticalAlignment="Center"
+                         VerticalAlignment="Stretch"
                          Height="5"
+                         ResizeDirection="Rows"
+                         ResizeBehavior="PreviousAndNext"
                          Background="{StaticResource DividerBrush}"
                          ShowsPreview="False"
                          Cursor="SizeNS"/>
