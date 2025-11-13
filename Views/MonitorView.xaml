@@ -43,9 +43,9 @@
                     </Grid.ColumnDefinitions>
                     <ComboBox Grid.Column="0" ItemsSource="{Binding AvailablePorts}"
                              SelectedItem="{Binding SelectedPort, Mode=TwoWay}"
-                             Height="36" VerticalAlignment="Center" FontSize="13" Padding="8,0"/>
+                             Height="38" VerticalAlignment="Center" FontSize="13" Padding="8,0"/>
                     <ui:Button Grid.Column="2" Content="刷新" Command="{Binding RefreshPortsCommand}"
-                              Width="50" Height="36" ToolTip="刷新串口列表" FontSize="12"
+                              Width="50" Height="38" ToolTip="刷新串口列表" FontSize="12"
                               Padding="6,0"/>
                 </Grid>
 
@@ -53,15 +53,15 @@
                 <TextBlock Grid.Column="3" Text="波特率:" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="13"/>
                 <ComboBox Grid.Column="4" ItemsSource="{Binding BaudRates}"
                          SelectedItem="{Binding SelectedBaudRate, Mode=TwoWay}"
-                         Height="36" VerticalAlignment="Center" FontSize="13" Padding="8,0"/>
+                         Height="38" VerticalAlignment="Center" FontSize="13" Padding="8,0"/>
 
                 <!-- 串口连接按钮 -->
                 <ui:Button Grid.Column="6" Content="连接串口" Command="{Binding OpenPortCommand}"
-                          Appearance="Primary" Width="88" Height="36"
+                          Appearance="Primary" Width="88" Height="38"
                           IsEnabled="{Binding IsSerialConnected, Converter={StaticResource InverseBooleanConverter}}"
                           FontSize="13" Padding="12,0"/>
                 <ui:Button Grid.Column="7" Content="断开串口" Command="{Binding ClosePortCommand}"
-                          Appearance="Danger" Width="88" Height="36" Margin="8,0,0,0"
+                          Appearance="Danger" Width="88" Height="38" Margin="8,0,0,0"
                           IsEnabled="{Binding IsSerialConnected}"
                           FontSize="13" Padding="12,0"/>
 
@@ -102,7 +102,7 @@
                 <!-- 监控控制按钮 -->
                 <StackPanel Grid.Column="12" Orientation="Horizontal">
                     <ui:Button Content="开始监控"
-                              Height="36"
+                              Height="38"
                               Padding="16,0"
                               Command="{Binding StartMonitoringCommand}"
                               IsEnabled="{Binding IsMonitoring, Converter={StaticResource InverseBooleanConverter}}"
@@ -110,7 +110,7 @@
                               FontSize="13"/>
 
                     <ui:Button Content="停止监控"
-                              Height="36"
+                              Height="38"
                               Padding="16,0"
                               Margin="8,0,0,0"
                               Command="{Binding StopMonitoringCommand}"
@@ -119,7 +119,7 @@
                               FontSize="13"/>
 
                     <ui:Button Content="刷新设备"
-                              Height="36"
+                              Height="38"
                               Padding="16,0"
                               Margin="8,0,0,0"
                               Command="{Binding RefreshDevicesCommand}"
@@ -150,13 +150,13 @@
             <!-- 左侧面板 -->
             <Grid Grid.Column="0" Margin="0,0,8,0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" MinHeight="150"/>
+                    <RowDefinition Height="400"/>
                     <RowDefinition Height="5"/>
-                    <RowDefinition Height="*" MinHeight="200"/>
+                    <RowDefinition Height="*" MinHeight="250"/>
                 </Grid.RowDefinitions>
 
-                <!-- 图例面板 - 占满剩余空间 -->
-                <ui:Card Grid.Row="0" Padding="12" Background="#FAFBFC">
+                <!-- 图例面板 - 固定高度 -->
+                <ui:Card Grid.Row="0" Padding="12" Background="#F8F9FA">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -216,12 +216,12 @@
                          HorizontalAlignment="Stretch"
                          VerticalAlignment="Center"
                          Height="5"
-                         Background="Transparent"
+                         Background="#E0E0E0"
                          ShowsPreview="False"
                          Cursor="SizeNS"/>
 
-            <!-- 协议和设备信息面板 - 填充高度 -->
-            <ui:Card Grid.Row="2" Padding="15" Background="#F5F8FA">
+            <!-- 协议和设备信息面板 - 填充剩余高度 -->
+            <ui:Card Grid.Row="2" Padding="15" Background="#FAFBFC">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -277,12 +277,12 @@
             <!-- 右侧数据显示区 -->
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0.5*" MinHeight="250"/>
+                    <RowDefinition Height="400"/>
                     <RowDefinition Height="5"/>
-                    <RowDefinition Height="0.5*" MinHeight="200"/>
+                    <RowDefinition Height="*" MinHeight="250"/>
                 </Grid.RowDefinitions>
 
-                <!-- 上部：实时图表 -->
+                <!-- 上部：实时图表 - 固定高度 -->
                 <ui:Card Grid.Row="0" Padding="12,12,12,12" Background="White">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -304,11 +304,11 @@
                              HorizontalAlignment="Stretch"
                              VerticalAlignment="Center"
                              Height="5"
-                             Background="Transparent"
+                             Background="#E0E0E0"
                              ShowsPreview="False"
                              Cursor="SizeNS"/>
 
-                <!-- 下部：数据表格 -->
+                <!-- 下部：数据表格 - 填充剩余高度 -->
                 <ui:Card Grid.Row="2" Padding="12,12,12,12" Background="White">
                     <Grid>
                         <Grid.RowDefinitions>

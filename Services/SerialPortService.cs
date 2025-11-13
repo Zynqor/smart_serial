@@ -111,9 +111,6 @@ public class SerialPortService : ISerialPortService, IDisposable
                 // Reset frame timeout timer
                 _frameTimer?.Dispose();
                 _frameTimer = new System.Threading.Timer(OnFrameTimeout, null, FrameTimeoutMs, Timeout.Infinite);
-
-                // Try to process complete frames
-                ProcessFrameBuffer();
             }
         }
         catch (Exception ex)
@@ -128,127 +125,22 @@ public class SerialPortService : ISerialPortService, IDisposable
         {
             if (_receiveBuffer.Count > 0)
             {
-                _loggingService.Warning($"帧超时，丢弃 {_receiveBuffer.Count} 字节不完整数据: {BitConverter.ToString(_receiveBuffer.ToArray()).Replace("-", " ")}");
+                // 超时认为是完整一帧，交由上层处理
+                var frame = _receiveBuffer.ToArray();
+                _loggingService.Information($"接收到完整帧: {BitConverter.ToString(frame).Replace("-", " ")} ({frame.Length} 字节)");
                 _receiveBuffer.Clear();
+
+                // 触发数据接收事件
+                DataReceived?.Invoke(this, frame);
             }
         }
     }
 
     private void ProcessFrameBuffer()
     {
-        // Minimum Modbus RTU frame: address(1) + function(1) + data(min 2) + crc(2) = 6 bytes
-        while (_receiveBuffer.Count >= 6)
-        {
-            if (_receiveBuffer.Count >= 3)
-            {
-                byte address = _receiveBuffer[0];
-                byte function = _receiveBuffer[1];
-
-                // Modbus RTU 通用帧解析
-                // 功能码 0x01-0x04 (读功能码): 地址 + 功能码 + 字节数 + 数据 + CRC
-                // 功能码 0x05-0x10 (写功能码): 地址 + 功能码 + 起始地址(2) + 数据 + CRC
-                // 异常响应 0x81-0xFF: 地址 + 功能码 + 异常码(1) + CRC (固定5字节)
-
-                // 检查是否是异常响应 (功能码最高位为1)
-                if ((function & 0x80) != 0)
-                {
-                    // 异常响应固定5字节
-                    if (_receiveBuffer.Count >= 5)
-                    {
-                        var frame = _receiveBuffer.Take(5).ToArray();
-                        if (ValidateModbusCrc(frame))
-                        {
-                            _loggingService.Warning($"接收到Modbus异常响应: {BitConverter.ToString(frame).Replace("-", " ")}");
-                            _receiveBuffer.RemoveRange(0, 5);
-                            DataReceived?.Invoke(this, frame);
-                            continue;
-                        }
-                        else
-                        {
-                            _loggingService.Debug($"CRC校验失败，丢弃首字节");
-                            _receiveBuffer.RemoveAt(0);
-                            continue;
-                        }
-                    }
-                }
-                // 读功能码 (0x01-0x04): 第3字节是数据字节数
-                else if (function >= 0x01 && function <= 0x04)
-                {
-                    byte byteCount = _receiveBuffer[2];
-                    int expectedFrameLength = 3 + byteCount + 2; // address + function + count + data + crc
-
-                    if (_receiveBuffer.Count >= expectedFrameLength)
-                    {
-                        var frame = _receiveBuffer.Take(expectedFrameLength).ToArray();
-                        if (ValidateModbusCrc(frame))
-                        {
-                            _loggingService.Information($"接收到完整帧 (功能码 0x{function:X2}): {BitConverter.ToString(frame).Replace("-", " ")} ({frame.Length} 字节)");
-                            _receiveBuffer.RemoveRange(0, expectedFrameLength);
-                            DataReceived?.Invoke(this, frame);
-                            continue;
-                        }
-                        else
-                        {
-                            _loggingService.Debug($"CRC校验失败，丢弃首字节");
-                            _receiveBuffer.RemoveAt(0);
-                            continue;
-                        }
-                    }
-                }
-                // 写功能码 0x05, 0x06 (单个线圈/寄存器): 固定8字节
-                else if (function == 0x05 || function == 0x06)
-                {
-                    if (_receiveBuffer.Count >= 8)
-                    {
-                        var frame = _receiveBuffer.Take(8).ToArray();
-                        if (ValidateModbusCrc(frame))
-                        {
-                            _loggingService.Information($"接收到写响应帧 (功能码 0x{function:X2}): {BitConverter.ToString(frame).Replace("-", " ")}");
-                            _receiveBuffer.RemoveRange(0, 8);
-                            DataReceived?.Invoke(this, frame);
-                            continue;
-                        }
-                        else
-                        {
-                            _loggingService.Debug($"CRC校验失败，丢弃首字节");
-                            _receiveBuffer.RemoveAt(0);
-                            continue;
-                        }
-                    }
-                }
-                // 写多个功能码 0x0F, 0x10: 固定8字节响应
-                else if (function == 0x0F || function == 0x10)
-                {
-                    if (_receiveBuffer.Count >= 8)
-                    {
-                        var frame = _receiveBuffer.Take(8).ToArray();
-                        if (ValidateModbusCrc(frame))
-                        {
-                            _loggingService.Information($"接收到写响应帧 (功能码 0x{function:X2}): {BitConverter.ToString(frame).Replace("-", " ")}");
-                            _receiveBuffer.RemoveRange(0, 8);
-                            DataReceived?.Invoke(this, frame);
-                            continue;
-                        }
-                        else
-                        {
-                            _loggingService.Debug($"CRC校验失败，丢弃首字节");
-                            _receiveBuffer.RemoveAt(0);
-                            continue;
-                        }
-                    }
-                }
-                else
-                {
-                    // 不支持的功能码，丢弃首字节继续搜索
-                    _loggingService.Debug($"不支持的功能码 0x{function:X2}，丢弃首字节");
-                    _receiveBuffer.RemoveAt(0);
-                    continue;
-                }
-            }
-
-            // 数据不足，等待更多数据
-            break;
-        }
+        // 协议解析由上层根据JSON配置处理，这里不做协议相关的判断
+        // 数据帧的识别完全依赖超时机制
+        // 当超时发生时，OnFrameTimeout会将缓冲区的数据作为一帧发送
     }
 
     private bool ValidateModbusCrc(byte[] frame)
