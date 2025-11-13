@@ -147,23 +147,23 @@
         <!-- 主内容区 -->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.18*" MinWidth="220" MaxWidth="300"/>
-                <ColumnDefinition Width="0.82*"/>
+                <ColumnDefinition Width="280" MinWidth="220" MaxWidth="350"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <!-- 左侧面板 -->
             <Grid Grid.Column="0" Margin="0,0,8,0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0.55*" MinHeight="250"/>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="0.45*" MinHeight="200"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
                 <!-- 图例面板 -->
-                <ui:Card Grid.Row="0" Padding="12,12,12,0"
+                <ui:Card Grid.Row="0" Padding="15" Margin="0,0,0,4"
                          Background="{StaticResource CardBackgroundBrush}"
                          BorderBrush="{StaticResource CardBorderBrush}"
-                         BorderThickness="1,1,1,0">
+                         BorderThickness="1">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -176,192 +176,194 @@
 
                         <!-- 设备和通道树形列表 -->
                         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                        <ItemsControl ItemsSource="{Binding Devices}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Expander Header="{Binding Definition.Name}"
-                                             IsExpanded="True"
-                                             Margin="0,4">
-                                        <StackPanel Margin="20,5,0,5">
-                                            <ItemsControl ItemsSource="{Binding ChannelData}">
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <CheckBox IsChecked="{Binding IsVisible}"
-                                                                 Margin="0,2"
-                                                                 Height="26">
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <!-- 颜色指示器 -->
-                                                                <Border Width="14" Height="14"
-                                                                       Background="{Binding Definition.Color}"
-                                                                       CornerRadius="2"
-                                                                       Margin="0,0,8,0"/>
-                                                                <TextBlock Text="{Binding Definition.Name}"
-                                                                          VerticalAlignment="Center"
-                                                                          FontSize="12"/>
-                                                            </StackPanel>
-                                                        </CheckBox>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
-                                        </StackPanel>
-                                    </Expander>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </ScrollViewer>
+                            <ItemsControl ItemsSource="{Binding Devices}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Expander Header="{Binding Definition.Name}"
+                                                 IsExpanded="True"
+                                                 Margin="0,4">
+                                            <StackPanel Margin="20,5,0,5">
+                                                <ItemsControl ItemsSource="{Binding ChannelData}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <CheckBox IsChecked="{Binding IsVisible}"
+                                                                     Margin="0,2"
+                                                                     Height="26">
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <!-- 颜色指示器 -->
+                                                                    <Border Width="14" Height="14"
+                                                                           Background="{Binding Definition.Color}"
+                                                                           CornerRadius="2"
+                                                                           Margin="0,0,8,0"/>
+                                                                    <TextBlock Text="{Binding Definition.Name}"
+                                                                              VerticalAlignment="Center"
+                                                                              FontSize="12"/>
+                                                                </StackPanel>
+                                                            </CheckBox>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </StackPanel>
+                                        </Expander>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
 
-                    <!-- 底部按钮 -->
-                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,12">
-                        <ui:Button Content="全选" Height="30" Padding="16,0" Margin="0,0,6,0" Click="SelectAll_Click" FontSize="12"/>
-                        <ui:Button Content="全不选" Height="30" Padding="16,0" Click="DeselectAll_Click" FontSize="12"/>
-                    </StackPanel>
-                </Grid>
-            </ui:Card>
-
-            <!-- GridSplitter - 可拖动调整图例和统计面板大小 -->
-            <GridSplitter Grid.Row="1"
-                         HorizontalAlignment="Stretch"
-                         Height="3"
-                         ResizeDirection="Rows"
-                         ResizeBehavior="PreviousAndNext"
-                         Background="{StaticResource CardBorderBrush}"
-                         BorderBrush="{StaticResource CardBorderBrush}"
-                         BorderThickness="1,0,1,0"
-                         ShowsPreview="False"
-                         Cursor="SizeNS"/>
-
-            <!-- 协议和设备信息面板 - 填充剩余高度 -->
-            <ui:Card Grid.Row="2" Padding="15,0,15,15"
-                     Background="{StaticResource CardBackgroundBrush}"
-                     BorderBrush="{StaticResource CardBorderBrush}"
-                     BorderThickness="1,0,1,1">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Grid.Row="0" Text="协议信息" FontSize="13" FontWeight="Bold" Margin="0,15,0,12"/>
-
-                    <StackPanel Grid.Row="1" VerticalAlignment="Top">
-                        <Border BorderBrush="{StaticResource DividerBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,10" Margin="0,0,0,10">
-                            <StackPanel>
-                                <TextBlock Text="当前协议" FontSize="11" Foreground="{StaticResource TextTertiaryBrush}" Margin="0,0,0,5"/>
-                                <TextBlock FontSize="12" TextWrapping="Wrap">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="Text" Value="未加载"/>
-                                            <Setter Property="Foreground" Value="{StaticResource TextTertiaryBrush}"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsProtocolLoaded}" Value="True">
-                                                    <Setter Property="Text" Value="已加载"/>
-                                                    <Setter Property="Foreground" Value="{StaticResource DataGreen}"/>
-                                                    <Setter Property="FontWeight" Value="Bold"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
-                            </StackPanel>
-                        </Border>
-
-                        <StackPanel>
-                            <TextBlock Text="设备数量" FontSize="11" Foreground="{StaticResource TextTertiaryBrush}" Margin="0,0,0,5"/>
-                            <TextBlock FontSize="16" FontWeight="Bold" Foreground="{StaticResource DataBlue}">
-                                <Run Text="{Binding Devices.Count, Mode=OneWay}"/>
-                                <Run Text=" 个设备" FontSize="12"/>
-                            </TextBlock>
+                        <!-- 底部按钮 -->
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                            <ui:Button Content="全选" Height="30" Padding="16,0" Margin="0,0,6,0" Click="SelectAll_Click" FontSize="12"/>
+                            <ui:Button Content="全不选" Height="30" Padding="16,0" Click="DeselectAll_Click" FontSize="12"/>
                         </StackPanel>
+                    </Grid>
+                </ui:Card>
 
-                        <Border BorderBrush="{StaticResource DividerBrush}" BorderThickness="0,1,0,0" Padding="0,10,0,0" Margin="0,10,0,0">
+                <!-- GridSplitter - 可拖动调整图例和协议信息面板大小 -->
+                <GridSplitter Grid.Row="1"
+                             HorizontalAlignment="Stretch"
+                             Height="6"
+                             ResizeDirection="Rows"
+                             ResizeBehavior="PreviousAndNext"
+                             Background="{StaticResource CardBorderBrush}"
+                             ShowsPreview="False"
+                             Cursor="SizeNS"
+                             Margin="0,2"/>
+
+                <!-- 协议和设备信息面板 -->
+                <ui:Card Grid.Row="2" Padding="15" Margin="0,4,0,0"
+                         Background="{StaticResource CardBackgroundBrush}"
+                         BorderBrush="{StaticResource CardBorderBrush}"
+                         BorderThickness="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="协议信息" FontSize="14" FontWeight="Bold" Margin="0,0,0,12"/>
+
+                        <StackPanel Grid.Row="1" VerticalAlignment="Top">
+                            <Border BorderBrush="{StaticResource DividerBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,10" Margin="0,0,0,10">
+                                <StackPanel>
+                                    <TextBlock Text="当前协议" FontSize="11" Foreground="{StaticResource TextTertiaryBrush}" Margin="0,0,0,5"/>
+                                    <TextBlock FontSize="12" TextWrapping="Wrap">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Text" Value="未加载"/>
+                                                <Setter Property="Foreground" Value="{StaticResource TextTertiaryBrush}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsProtocolLoaded}" Value="True">
+                                                        <Setter Property="Text" Value="已加载"/>
+                                                        <Setter Property="Foreground" Value="{StaticResource DataGreen}"/>
+                                                        <Setter Property="FontWeight" Value="Bold"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Border>
+
                             <StackPanel>
-                                <TextBlock Text="数据更新" FontSize="11" Foreground="{StaticResource TextTertiaryBrush}" Margin="0,0,0,5"/>
-                                <TextBlock FontSize="12" FontWeight="Bold" Foreground="{StaticResource DataBlue}">
-                                    <Run Text="{Binding DataRate, StringFormat={}{0:F1}, Mode=OneWay}"/>
-                                    <Run Text=" 条/秒" FontSize="11" Foreground="{StaticResource TextTertiaryBrush}"/>
+                                <TextBlock Text="设备数量" FontSize="11" Foreground="{StaticResource TextTertiaryBrush}" Margin="0,0,0,5"/>
+                                <TextBlock FontSize="16" FontWeight="Bold" Foreground="{StaticResource DataBlue}">
+                                    <Run Text="{Binding Devices.Count, Mode=OneWay}"/>
+                                    <Run Text=" 个设备" FontSize="12"/>
                                 </TextBlock>
                             </StackPanel>
-                        </Border>
-                    </StackPanel>
-                </Grid>
-            </ui:Card>
-        </Grid>
 
-        <!-- 右侧数据显示区 -->
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="0.5*" MinHeight="250"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="0.5*" MinHeight="220"/>
-            </Grid.RowDefinitions>
-
-            <!-- 上部：实时图表 -->
-            <ui:Card Grid.Row="0" Padding="12,12,12,0"
-                     Background="{StaticResource CardBackgroundBrush}"
-                     BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Grid.Row="0" Text="实时曲线" FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
-
-                    <!-- ScottPlot实时图表 -->
-                    <Grid Grid.Row="1">
-                        <Border BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1" CornerRadius="4">
-                            <scottplot:WpfPlot x:Name="ChartPlot"/>
-                        </Border>
-
-                        <!-- 空数据提示 -->
-                        <Border HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Devices.Count}" Value="0">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Border.Style>
-                            <StackPanel>
-                                <TextBlock Text="暂无图表数据" FontSize="16" FontWeight="Bold"
-                                          Foreground="{StaticResource TextTertiaryBrush}"
-                                          HorizontalAlignment="Center" Margin="0,0,0,8"/>
-                                <TextBlock Text="开始监控后将显示实时曲线" FontSize="12"
-                                          Foreground="{StaticResource TextTertiaryBrush}"
-                                          HorizontalAlignment="Center"/>
-                            </StackPanel>
-                        </Border>
+                            <Border BorderBrush="{StaticResource DividerBrush}" BorderThickness="0,1,0,0" Padding="0,10,0,0" Margin="0,10,0,0">
+                                <StackPanel>
+                                    <TextBlock Text="数据更新" FontSize="11" Foreground="{StaticResource TextTertiaryBrush}" Margin="0,0,0,5"/>
+                                    <TextBlock FontSize="12" FontWeight="Bold" Foreground="{StaticResource DataBlue}">
+                                        <Run Text="{Binding DataRate, StringFormat={}{0:F1}, Mode=OneWay}"/>
+                                        <Run Text=" 条/秒" FontSize="11" Foreground="{StaticResource TextTertiaryBrush}"/>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
                     </Grid>
-                </Grid>
-            </ui:Card>
+                </ui:Card>
+            </Grid>
 
-            <!-- GridSplitter - 可拖动调整图表和表格大小 -->
-            <GridSplitter Grid.Row="1"
-                         HorizontalAlignment="Stretch"
-                         Height="5"
-                         ResizeDirection="Rows"
-                         ResizeBehavior="PreviousAndNext"
-                         Background="{StaticResource DividerBrush}"
-                         ShowsPreview="False"
-                         Cursor="SizeNS"/>
+            <!-- 右侧数据显示区 -->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-            <!-- 下部：数据表格 - 填充剩余高度 -->
-            <ui:Card Grid.Row="2" Padding="12,0,12,12"
-                     Background="{StaticResource CardBackgroundBrush}"
-                     BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
+                <!-- 上部：实时图表 -->
+                <ui:Card Grid.Row="0" Padding="15" Margin="0,0,0,4"
+                         Background="{StaticResource CardBackgroundBrush}"
+                         BorderBrush="{StaticResource CardBorderBrush}"
+                         BorderThickness="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="0" Text="实时数据" FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
+                        <TextBlock Grid.Row="0" Text="实时曲线" FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
 
-                    <Grid Grid.Row="1">
-                        <DataGrid ItemsSource="{Binding Devices}"
+                        <!-- ScottPlot实时图表 -->
+                        <Grid Grid.Row="1">
+                            <Border BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1" CornerRadius="4">
+                                <scottplot:WpfPlot x:Name="ChartPlot"/>
+                            </Border>
+
+                            <!-- 空数据提示 -->
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Devices.Count}" Value="0">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <StackPanel>
+                                    <TextBlock Text="暂无图表数据" FontSize="16" FontWeight="Bold"
+                                              Foreground="{StaticResource TextTertiaryBrush}"
+                                              HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                    <TextBlock Text="开始监控后将显示实时曲线" FontSize="12"
+                                              Foreground="{StaticResource TextTertiaryBrush}"
+                                              HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </ui:Card>
+
+                <!-- GridSplitter - 可拖动调整图表和表格大小 -->
+                <GridSplitter Grid.Row="1"
+                             HorizontalAlignment="Stretch"
+                             Height="6"
+                             ResizeDirection="Rows"
+                             ResizeBehavior="PreviousAndNext"
+                             Background="{StaticResource DividerBrush}"
+                             ShowsPreview="False"
+                             Cursor="SizeNS"
+                             Margin="0,2"/>
+
+                <!-- 下部：数据表格 -->
+                <ui:Card Grid.Row="2" Padding="15" Margin="0,4,0,0"
+                         Background="{StaticResource CardBackgroundBrush}"
+                         BorderBrush="{StaticResource CardBorderBrush}"
+                         BorderThickness="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="实时数据" FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                        <Grid Grid.Row="1">
+                            <DataGrid ItemsSource="{Binding Devices}"
                                      AutoGenerateColumns="False"
                                      IsReadOnly="True"
                                      CanUserAddRows="False"
@@ -375,138 +377,137 @@
                                      BorderBrush="{StaticResource CardBorderBrush}"
                                      BorderThickness="1">
 
-                            <DataGrid.Columns>
-                                <!-- 设备名称列 -->
-                                <DataGridTextColumn Header="设备名称" Binding="{Binding Definition.Name}" Width="0.15*" MinWidth="110">
-                                    <DataGridTextColumn.ElementStyle>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="FontWeight" Value="Bold"/>
-                                            <Setter Property="VerticalAlignment" Value="Center"/>
-                                            <Setter Property="Margin" Value="10,0"/>
-                                            <Setter Property="FontSize" Value="13"/>
-                                        </Style>
-                                    </DataGridTextColumn.ElementStyle>
-                                </DataGridTextColumn>
+                                <DataGrid.Columns>
+                                    <!-- 设备名称列 -->
+                                    <DataGridTextColumn Header="设备名称" Binding="{Binding Definition.Name}" Width="0.15*" MinWidth="110">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                                <Setter Property="Margin" Value="10,0"/>
+                                                <Setter Property="FontSize" Value="13"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
 
-                                <!-- 状态列 -->
-                                <DataGridTemplateColumn Header="状态" Width="0.08*" MinWidth="70">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                <Ellipse Width="9" Height="9" Margin="0,0,6,0">
-                                                    <Ellipse.Style>
-                                                        <Style TargetType="Ellipse">
-                                                            <Setter Property="Fill" Value="#F44336"/>
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding Status}" Value="Online">
-                                                                    <Setter Property="Fill" Value="#4CAF50"/>
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </Ellipse.Style>
-                                                </Ellipse>
-                                                <TextBlock Text="{Binding Status}" VerticalAlignment="Center" FontSize="12"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
+                                    <!-- 状态列 -->
+                                    <DataGridTemplateColumn Header="状态" Width="0.08*" MinWidth="70">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <Ellipse Width="9" Height="9" Margin="0,0,6,0">
+                                                        <Ellipse.Style>
+                                                            <Style TargetType="Ellipse">
+                                                                <Setter Property="Fill" Value="#F44336"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Status}" Value="Online">
+                                                                        <Setter Property="Fill" Value="#4CAF50"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Ellipse.Style>
+                                                    </Ellipse>
+                                                    <TextBlock Text="{Binding Status}" VerticalAlignment="Center" FontSize="12"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
 
-                                <!-- 最后更新时间列 -->
-                                <DataGridTextColumn Header="最后更新" Binding="{Binding LastUpdateTime, StringFormat={}{0:HH:mm:ss}}" Width="0.11*" MinWidth="85">
-                                    <DataGridTextColumn.ElementStyle>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="VerticalAlignment" Value="Center"/>
-                                            <Setter Property="HorizontalAlignment" Value="Center"/>
-                                            <Setter Property="FontSize" Value="12"/>
-                                            <Setter Property="Foreground" Value="#666"/>
-                                        </Style>
-                                    </DataGridTextColumn.ElementStyle>
-                                </DataGridTextColumn>
+                                    <!-- 最后更新时间列 -->
+                                    <DataGridTextColumn Header="最后更新" Binding="{Binding LastUpdateTime, StringFormat={}{0:HH:mm:ss}}" Width="0.11*" MinWidth="85">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                <Setter Property="FontSize" Value="12"/>
+                                                <Setter Property="Foreground" Value="#666"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
 
-                                <!-- 通道数据列 -->
-                                <DataGridTemplateColumn Header="通道数据" Width="0.66*" MinWidth="250">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-                                                <ItemsControl ItemsSource="{Binding ChannelData}" Margin="6,4">
-                                                    <ItemsControl.ItemsPanel>
-                                                        <ItemsPanelTemplate>
-                                                            <WrapPanel/>
-                                                        </ItemsPanelTemplate>
-                                                    </ItemsControl.ItemsPanel>
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <Border Background="#E8F4FD" BorderBrush="{StaticResource AccentBrush}" BorderThickness="1"
-                                                                   Margin="3,2" Padding="7,3" CornerRadius="3">
-                                                                <StackPanel Orientation="Horizontal">
-                                                                    <TextBlock Text="{Binding Definition.Name}" Margin="0,0,4,0" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}"/>
-                                                                    <TextBlock Text="{Binding FormattedValue}" FontWeight="Bold" Foreground="{StaticResource AccentBrush}" FontSize="11"/>
-                                                                    <TextBlock Text="{Binding Definition.Unit, StringFormat={} {0}}" Margin="2,0,0,0" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}"/>
-                                                                </StackPanel>
-                                                            </Border>
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
-                                            </ScrollViewer>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                            </DataGrid.Columns>
+                                    <!-- 通道数据列 -->
+                                    <DataGridTemplateColumn Header="通道数据" Width="0.66*" MinWidth="250">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                                                    <ItemsControl ItemsSource="{Binding ChannelData}" Margin="6,4">
+                                                        <ItemsControl.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <WrapPanel/>
+                                                            </ItemsPanelTemplate>
+                                                        </ItemsControl.ItemsPanel>
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Border Background="#E8F4FD" BorderBrush="{StaticResource AccentBrush}" BorderThickness="1"
+                                                                       Margin="3,2" Padding="7,3" CornerRadius="3">
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <TextBlock Text="{Binding Definition.Name}" Margin="0,0,4,0" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}"/>
+                                                                        <TextBlock Text="{Binding FormattedValue}" FontWeight="Bold" Foreground="{StaticResource AccentBrush}" FontSize="11"/>
+                                                                        <TextBlock Text="{Binding Definition.Unit, StringFormat={} {0}}" Margin="2,0,0,0" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}"/>
+                                                                    </StackPanel>
+                                                                </Border>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                </ScrollViewer>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
 
-                            <!-- 表头样式 -->
-                            <DataGrid.ColumnHeaderStyle>
-                                <Style TargetType="DataGridColumnHeader">
-                                    <Setter Property="Background" Value="#E1EFFA"/>
-                                    <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
-                                    <Setter Property="FontWeight" Value="Bold"/>
-                                    <Setter Property="FontSize" Value="13"/>
-                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                    <Setter Property="Padding" Value="10,10"/>
-                                    <Setter Property="BorderBrush" Value="{StaticResource DividerBrush}"/>
-                                    <Setter Property="BorderThickness" Value="0,0,1,2"/>
-                                </Style>
-                            </DataGrid.ColumnHeaderStyle>
+                                <!-- 表头样式 -->
+                                <DataGrid.ColumnHeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader">
+                                        <Setter Property="Background" Value="#E1EFFA"/>
+                                        <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                        <Setter Property="FontSize" Value="13"/>
+                                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                        <Setter Property="Padding" Value="10,10"/>
+                                        <Setter Property="BorderBrush" Value="{StaticResource DividerBrush}"/>
+                                        <Setter Property="BorderThickness" Value="0,0,1,2"/>
+                                    </Style>
+                                </DataGrid.ColumnHeaderStyle>
 
-                            <!-- 行样式 -->
-                            <DataGrid.RowStyle>
-                                <Style TargetType="DataGridRow">
-                                    <Setter Property="Background" Value="{StaticResource CardBackgroundBrush}"/>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="{StaticResource SectionBackgroundBrush}"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </DataGrid.RowStyle>
-                        </DataGrid>
+                                <!-- 行样式 -->
+                                <DataGrid.RowStyle>
+                                    <Style TargetType="DataGridRow">
+                                        <Setter Property="Background" Value="{StaticResource CardBackgroundBrush}"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="{StaticResource SectionBackgroundBrush}"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGrid.RowStyle>
+                            </DataGrid>
 
-                        <!-- 空数据提示 -->
-                        <Border HorizontalAlignment="Center" VerticalAlignment="Center"
-                                Visibility="{Binding Devices.Count, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Devices.Count}" Value="0">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Border.Style>
-                            <StackPanel>
-                                <TextBlock Text="暂无设备数据" FontSize="16" FontWeight="Bold"
-                                          Foreground="{StaticResource TextTertiaryBrush}"
-                                          HorizontalAlignment="Center" Margin="0,0,0,8"/>
-                                <TextBlock Text="请先加载协议配置并开始监控" FontSize="12"
-                                          Foreground="{StaticResource TextTertiaryBrush}"
-                                          HorizontalAlignment="Center"/>
-                            </StackPanel>
-                        </Border>
+                            <!-- 空数据提示 -->
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Devices.Count}" Value="0">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <StackPanel>
+                                    <TextBlock Text="暂无设备数据" FontSize="16" FontWeight="Bold"
+                                              Foreground="{StaticResource TextTertiaryBrush}"
+                                              HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                    <TextBlock Text="请先加载协议配置并开始监控" FontSize="12"
+                                              Foreground="{StaticResource TextTertiaryBrush}"
+                                              HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
                     </Grid>
-                </Grid>
-            </ui:Card>
-        </Grid>
+                </ui:Card>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>
