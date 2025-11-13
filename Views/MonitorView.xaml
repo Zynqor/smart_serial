@@ -160,7 +160,7 @@
                 </Grid.RowDefinitions>
 
                 <!-- 图例面板 -->
-                <ui:Card Grid.Row="0" Padding="15" Margin="0,0,0,4"
+                <ui:Card Grid.Row="0" Padding="15"
                          Background="{StaticResource CardBackgroundBrush}"
                          BorderBrush="{StaticResource CardBorderBrush}"
                          BorderThickness="1">
@@ -226,11 +226,10 @@
                              ResizeBehavior="PreviousAndNext"
                              Background="{StaticResource CardBorderBrush}"
                              ShowsPreview="False"
-                             Cursor="SizeNS"
-                             Margin="0,2"/>
+                             Cursor="SizeNS"/>
 
                 <!-- 协议和设备信息面板 -->
-                <ui:Card Grid.Row="2" Padding="15" Margin="0,4,0,0"
+                <ui:Card Grid.Row="2" Padding="15"
                          Background="{StaticResource CardBackgroundBrush}"
                          BorderBrush="{StaticResource CardBorderBrush}"
                          BorderThickness="1">
@@ -295,7 +294,7 @@
                 </Grid.RowDefinitions>
 
                 <!-- 上部：实时图表 -->
-                <ui:Card Grid.Row="0" Padding="15" Margin="0,0,0,4"
+                <ui:Card Grid.Row="0" Padding="15"
                          Background="{StaticResource CardBackgroundBrush}"
                          BorderBrush="{StaticResource CardBorderBrush}"
                          BorderThickness="1">
@@ -346,11 +345,10 @@
                              ResizeBehavior="PreviousAndNext"
                              Background="{StaticResource DividerBrush}"
                              ShowsPreview="False"
-                             Cursor="SizeNS"
-                             Margin="0,2"/>
+                             Cursor="SizeNS"/>
 
                 <!-- 下部：数据表格 -->
-                <ui:Card Grid.Row="2" Padding="15" Margin="0,4,0,0"
+                <ui:Card Grid.Row="2" Padding="15"
                          Background="{StaticResource CardBackgroundBrush}"
                          BorderBrush="{StaticResource CardBorderBrush}"
                          BorderThickness="1">
