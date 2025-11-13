@@ -154,9 +154,9 @@
             <!-- 左侧面板 -->
             <Grid Grid.Column="0" Margin="0,0,8,0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0.55*" MinHeight="200"/>
-                    <RowDefinition Height="3"/>
-                    <RowDefinition Height="0.45*" MinHeight="150"/>
+                    <RowDefinition Height="0.55*" MinHeight="250"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="0.45*" MinHeight="200"/>
                 </Grid.RowDefinitions>
 
                 <!-- 图例面板 -->
@@ -221,7 +221,6 @@
             <!-- GridSplitter - 可拖动调整图例和统计面板大小 -->
             <GridSplitter Grid.Row="1"
                          HorizontalAlignment="Stretch"
-                         VerticalAlignment="Stretch"
                          Height="3"
                          ResizeDirection="Rows"
                          ResizeBehavior="PreviousAndNext"
@@ -291,9 +290,9 @@
         <!-- 右侧数据显示区 -->
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.5*" MinHeight="200"/>
-                <RowDefinition Height="5"/>
-                <RowDefinition Height="0.5*" MinHeight="180"/>
+                <RowDefinition Height="0.5*" MinHeight="250"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="0.5*" MinHeight="220"/>
             </Grid.RowDefinitions>
 
             <!-- 上部：实时图表 -->
@@ -342,7 +341,6 @@
             <!-- GridSplitter - 可拖动调整图表和表格大小 -->
             <GridSplitter Grid.Row="1"
                          HorizontalAlignment="Stretch"
-                         VerticalAlignment="Stretch"
                          Height="5"
                          ResizeDirection="Rows"
                          ResizeBehavior="PreviousAndNext"
