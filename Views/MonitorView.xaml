@@ -154,9 +154,9 @@
             <!-- 左侧面板 -->
             <Grid Grid.Column="0" Margin="0,0,8,0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*" MinHeight="150"/>
+                    <RowDefinition Height="6"/>
+                    <RowDefinition Height="*" MinHeight="150"/>
                 </Grid.RowDefinitions>
 
                 <!-- 图例面板 -->
@@ -288,9 +288,9 @@
             <!-- 右侧数据显示区 -->
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*" MinHeight="150"/>
+                    <RowDefinition Height="6"/>
+                    <RowDefinition Height="*" MinHeight="150"/>
                 </Grid.RowDefinitions>
 
                 <!-- 上部：实时图表 -->
