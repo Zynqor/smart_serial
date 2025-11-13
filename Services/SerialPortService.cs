@@ -139,39 +139,99 @@ public class SerialPortService : ISerialPortService, IDisposable
         // Minimum Modbus RTU frame: address(1) + function(1) + data(min 2) + crc(2) = 6 bytes
         while (_receiveBuffer.Count >= 6)
         {
-            // For Modbus RTU responses:
-            // Response: address(1) + function(1) + byte_count(1) + data(N) + crc(2)
             if (_receiveBuffer.Count >= 3)
             {
                 byte address = _receiveBuffer[0];
                 byte function = _receiveBuffer[1];
 
-                // Check if this is a Modbus RTU response (function 0x03 or 0x04)
-                // 0x03 = Read Holding Registers
-                // 0x04 = Read Input Registers
-                if ((function == 0x03 || function == 0x04) && _receiveBuffer.Count >= 3)
+                // Modbus RTU 通用帧解析
+                // 功能码 0x01-0x04 (读功能码): 地址 + 功能码 + 字节数 + 数据 + CRC
+                // 功能码 0x05-0x10 (写功能码): 地址 + 功能码 + 起始地址(2) + 数据 + CRC
+                // 异常响应 0x81-0xFF: 地址 + 功能码 + 异常码(1) + CRC (固定5字节)
+
+                // 检查是否是异常响应 (功能码最高位为1)
+                if ((function & 0x80) != 0)
+                {
+                    // 异常响应固定5字节
+                    if (_receiveBuffer.Count >= 5)
+                    {
+                        var frame = _receiveBuffer.Take(5).ToArray();
+                        if (ValidateModbusCrc(frame))
+                        {
+                            _loggingService.Warning($"接收到Modbus异常响应: {BitConverter.ToString(frame).Replace("-", " ")}");
+                            _receiveBuffer.RemoveRange(0, 5);
+                            DataReceived?.Invoke(this, frame);
+                            continue;
+                        }
+                        else
+                        {
+                            _loggingService.Debug($"CRC校验失败，丢弃首字节");
+                            _receiveBuffer.RemoveAt(0);
+                            continue;
+                        }
+                    }
+                }
+                // 读功能码 (0x01-0x04): 第3字节是数据字节数
+                else if (function >= 0x01 && function <= 0x04)
                 {
                     byte byteCount = _receiveBuffer[2];
                     int expectedFrameLength = 3 + byteCount + 2; // address + function + count + data + crc
 
                     if (_receiveBuffer.Count >= expectedFrameLength)
                     {
-                        // Extract complete frame
                         var frame = _receiveBuffer.Take(expectedFrameLength).ToArray();
-
-                        // Validate CRC
                         if (ValidateModbusCrc(frame))
                         {
-                            _loggingService.Information($"接收到完整帧: {BitConverter.ToString(frame).Replace("-", " ")} ({frame.Length} 字节)");
+                            _loggingService.Information($"接收到完整帧 (功能码 0x{function:X2}): {BitConverter.ToString(frame).Replace("-", " ")} ({frame.Length} 字节)");
                             _receiveBuffer.RemoveRange(0, expectedFrameLength);
-
-                            // Fire DataReceived event with complete frame
                             DataReceived?.Invoke(this, frame);
                             continue;
                         }
                         else
                         {
-                            _loggingService.Warning($"CRC校验失败，丢弃首字节");
+                            _loggingService.Debug($"CRC校验失败，丢弃首字节");
+                            _receiveBuffer.RemoveAt(0);
+                            continue;
+                        }
+                    }
+                }
+                // 写功能码 0x05, 0x06 (单个线圈/寄存器): 固定8字节
+                else if (function == 0x05 || function == 0x06)
+                {
+                    if (_receiveBuffer.Count >= 8)
+                    {
+                        var frame = _receiveBuffer.Take(8).ToArray();
+                        if (ValidateModbusCrc(frame))
+                        {
+                            _loggingService.Information($"接收到写响应帧 (功能码 0x{function:X2}): {BitConverter.ToString(frame).Replace("-", " ")}");
+                            _receiveBuffer.RemoveRange(0, 8);
+                            DataReceived?.Invoke(this, frame);
+                            continue;
+                        }
+                        else
+                        {
+                            _loggingService.Debug($"CRC校验失败，丢弃首字节");
+                            _receiveBuffer.RemoveAt(0);
+                            continue;
+                        }
+                    }
+                }
+                // 写多个功能码 0x0F, 0x10: 固定8字节响应
+                else if (function == 0x0F || function == 0x10)
+                {
+                    if (_receiveBuffer.Count >= 8)
+                    {
+                        var frame = _receiveBuffer.Take(8).ToArray();
+                        if (ValidateModbusCrc(frame))
+                        {
+                            _loggingService.Information($"接收到写响应帧 (功能码 0x{function:X2}): {BitConverter.ToString(frame).Replace("-", " ")}");
+                            _receiveBuffer.RemoveRange(0, 8);
+                            DataReceived?.Invoke(this, frame);
+                            continue;
+                        }
+                        else
+                        {
+                            _loggingService.Debug($"CRC校验失败，丢弃首字节");
                             _receiveBuffer.RemoveAt(0);
                             continue;
                         }
@@ -179,14 +239,14 @@ public class SerialPortService : ISerialPortService, IDisposable
                 }
                 else
                 {
-                    // Unknown or unsupported function code, remove first byte and try again
-                    _loggingService.Warning($"未知功能码 0x{function:X2}，丢弃首字节");
+                    // 不支持的功能码，丢弃首字节继续搜索
+                    _loggingService.Debug($"不支持的功能码 0x{function:X2}，丢弃首字节");
                     _receiveBuffer.RemoveAt(0);
                     continue;
                 }
             }
 
-            // Not enough data yet, wait for more
+            // 数据不足，等待更多数据
             break;
         }
     }

@@ -25,22 +25,10 @@
                      PreviewMouseWheel="LogListBox_PreviewMouseWheel">
                 <ListBox.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="复制" Click="CopyMenuItem_Click" InputGestureText="Ctrl+C">
-                            <MenuItem.Icon>
-                                <ui:SymbolIcon Symbol="Copy24"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <MenuItem Header="全选" Click="SelectAllMenuItem_Click" InputGestureText="Ctrl+A">
-                            <MenuItem.Icon>
-                                <ui:SymbolIcon Symbol="SelectAll24"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
+                        <MenuItem Header="复制" Click="CopyMenuItem_Click" InputGestureText="Ctrl+C"/>
+                        <MenuItem Header="全选" Click="SelectAllMenuItem_Click" InputGestureText="Ctrl+A"/>
                         <Separator/>
-                        <MenuItem Header="清空日志" Click="ClearMenuItem_Click">
-                            <MenuItem.Icon>
-                                <ui:SymbolIcon Symbol="Delete24"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
+                        <MenuItem Header="清空日志" Click="ClearMenuItem_Click"/>
                     </ContextMenu>
                 </ListBox.ContextMenu>
                 <ListBox.InputBindings>
