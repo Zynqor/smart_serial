@@ -154,9 +154,9 @@
             <!-- 左侧面板 -->
             <Grid Grid.Column="0" Margin="0,0,8,0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0.55*" MinHeight="350"/>
+                    <RowDefinition Height="0.55*" MinHeight="200"/>
                     <RowDefinition Height="3"/>
-                    <RowDefinition Height="0.45*" MinHeight="250"/>
+                    <RowDefinition Height="0.45*" MinHeight="150"/>
                 </Grid.RowDefinitions>
 
                 <!-- 图例面板 -->
@@ -291,9 +291,9 @@
         <!-- 右侧数据显示区 -->
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.5*" MinHeight="300"/>
+                <RowDefinition Height="0.5*" MinHeight="200"/>
                 <RowDefinition Height="5"/>
-                <RowDefinition Height="0.5*" MinHeight="250"/>
+                <RowDefinition Height="0.5*" MinHeight="180"/>
             </Grid.RowDefinitions>
 
             <!-- 上部：实时图表 -->
@@ -311,7 +311,7 @@
                     <!-- ScottPlot实时图表 -->
                     <Grid Grid.Row="1">
                         <Border BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1" CornerRadius="4">
-                            <scottplot:WpfPlot x:Name="ChartPlot" MinHeight="300"/>
+                            <scottplot:WpfPlot x:Name="ChartPlot"/>
                         </Border>
 
                         <!-- 空数据提示 -->
@@ -372,7 +372,6 @@
                                      HeadersVisibility="Column"
                                      GridLinesVisibility="All"
                                      RowHeight="44"
-                                     MinHeight="200"
                                      AlternatingRowBackground="{StaticResource SectionBackgroundBrush}"
                                      Background="{StaticResource CardBackgroundBrush}"
                                      BorderBrush="{StaticResource CardBorderBrush}"
