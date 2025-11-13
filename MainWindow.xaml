@@ -13,8 +13,9 @@
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="200"/>
+            <RowDefinition Height="2*" MinHeight="300"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="*" MinHeight="150"/>
         </Grid.RowDefinitions>
 
         <!-- 标题 -->
@@ -23,8 +24,9 @@
         <!-- 主内容区 -->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="500"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" MinWidth="300"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="2*" MinWidth="400"/>
             </Grid.ColumnDefinitions>
 
             <!-- 左侧控制面板 -->
@@ -33,11 +35,27 @@
                 <views:ProtocolControlView DataContext="{Binding ProtocolControlViewModel}"/>
             </StackPanel>
 
+            <!-- 水平分隔条（左右调整）-->
+            <GridSplitter Grid.Column="1"
+                          Width="5"
+                          HorizontalAlignment="Stretch"
+                          Background="#E0E0E0"
+                          Cursor="SizeWE"
+                          VerticalAlignment="Stretch"/>
+
             <!-- 右侧数据显示 -->
-            <views:DataDisplayView Grid.Column="1" DataContext="{Binding DataDisplayViewModel}"/>
+            <views:DataDisplayView Grid.Column="2" DataContext="{Binding DataDisplayViewModel}"/>
         </Grid>
 
+        <!-- 垂直分隔条（上下调整）-->
+        <GridSplitter Grid.Row="2"
+                      Height="5"
+                      HorizontalAlignment="Stretch"
+                      Background="#E0E0E0"
+                      Cursor="SizeNS"
+                      VerticalAlignment="Stretch"/>
+
         <!-- 底部日志 -->
-        <views:LogView Grid.Row="2" DataContext="{Binding LogViewModel}"/>
+        <views:LogView Grid.Row="3" DataContext="{Binding LogViewModel}"/>
     </Grid>
 </Window>
