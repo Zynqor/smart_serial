@@ -46,7 +46,7 @@
                     <ComboBox Grid.Column="0" ItemsSource="{Binding AvailablePorts}"
                              SelectedItem="{Binding SelectedPort, Mode=TwoWay}"
                              Height="38" VerticalAlignment="Center" VerticalContentAlignment="Center"
-                             FontSize="13" Padding="8,0"/>
+                             FontSize="13" Padding="10,8"/>
                     <ui:Button Grid.Column="2" Content="刷新" Command="{Binding RefreshPortsCommand}"
                               Width="50" Height="38" ToolTip="刷新串口列表" FontSize="12"
                               Padding="6,0"/>
@@ -57,7 +57,7 @@
                 <ComboBox Grid.Column="4" ItemsSource="{Binding BaudRates}"
                          SelectedItem="{Binding SelectedBaudRate, Mode=TwoWay}"
                          Height="38" VerticalAlignment="Center" VerticalContentAlignment="Center"
-                         FontSize="13" Padding="8,0"/>
+                         FontSize="13" Padding="10,8"/>
 
                 <!-- 串口连接按钮 -->
                 <ui:Button Grid.Column="6" Content="连接串口" Command="{Binding OpenPortCommand}"
@@ -221,7 +221,7 @@
             <!-- GridSplitter - 可拖动调整图例和统计面板大小 -->
             <GridSplitter Grid.Row="1"
                          HorizontalAlignment="Stretch"
-                         VerticalAlignment="Stretch"
+                         VerticalAlignment="Center"
                          Height="3"
                          Background="{StaticResource CardBorderBrush}"
                          BorderBrush="{StaticResource CardBorderBrush}"
@@ -289,12 +289,12 @@
         <!-- 右侧数据显示区 -->
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="400"/>
+                <RowDefinition Height="0.5*" MinHeight="300"/>
                 <RowDefinition Height="5"/>
-                <RowDefinition Height="*" MinHeight="250"/>
+                <RowDefinition Height="0.5*" MinHeight="250"/>
             </Grid.RowDefinitions>
 
-            <!-- 上部：实时图表 - 固定高度 -->
+            <!-- 上部：实时图表 -->
             <ui:Card Grid.Row="0" Padding="12,12,12,12"
                      Background="{StaticResource CardBackgroundBrush}"
                      BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
