@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-             xmlns:scottplot="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
              mc:Ignorable="d"
              d:DesignHeight="800" d:DesignWidth="1600">
 
@@ -318,10 +317,14 @@
 
                         <TextBlock Grid.Row="0" Text="实时曲线" FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
 
-                        <!-- ScottPlot实时图表 -->
+                        <!-- 实时图表区域（占位符） -->
                         <Grid Grid.Row="1">
-                            <Border BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1" CornerRadius="4">
-                                <scottplot:WpfPlot x:Name="ChartPlot"/>
+                            <Border BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1" CornerRadius="4" Background="#F9F9F9">
+                                <Grid>
+                                    <!-- 图表占位符 - 如需使用ScottPlot图表，请安装 ScottPlot.WPF NuGet包 -->
+                                    <TextBlock Text="图表区域" FontSize="14" Foreground="#BDBDBD"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Grid>
                             </Border>
 
                             <!-- 空数据提示 -->
