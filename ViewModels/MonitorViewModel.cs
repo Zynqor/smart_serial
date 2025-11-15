@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using SerialProtocolAssistant.Models;
 using SerialProtocolAssistant.Services;
 using System.Collections.ObjectModel;
-using System.IO.Ports;
 using System.Windows;
 using ScottPlot.WPF;
 
@@ -19,6 +18,7 @@ public partial class MonitorViewModel : ObservableObject
     private readonly ILoggingService _loggingService;
     private WpfPlot? _chartPlot;
     private System.Timers.Timer? _updateTimer;
+    private System.Timers.Timer? _statusCheckTimer;
 
     #region 串口相关属性
 
@@ -70,13 +70,17 @@ public partial class MonitorViewModel : ObservableObject
         // 初始化串口列表
         RefreshPorts();
 
-        // 订阅串口连接状态变化
-        _serialPortService.ConnectionStateChanged += OnConnectionStateChanged;
+        // 订阅数据接收事件
         _serialPortService.DataReceived += OnDataReceived;
 
         // 初始化定时器（用于更新图表和数据速率）
         _updateTimer = new System.Timers.Timer(100); // 100ms 更新一次
         _updateTimer.Elapsed += OnUpdateTimerElapsed;
+
+        // 初始化状态检查定时器（用于检查串口连接状态）
+        _statusCheckTimer = new System.Timers.Timer(500); // 500ms 检查一次
+        _statusCheckTimer.Elapsed += OnStatusCheckTimerElapsed;
+        _statusCheckTimer.Start();
     }
 
     /// <summary>
@@ -96,7 +100,7 @@ public partial class MonitorViewModel : ObservableObject
         try
         {
             AvailablePorts.Clear();
-            var ports = SerialPort.GetPortNames();
+            var ports = _serialPortService.GetAvailablePorts();
             foreach (var port in ports)
             {
                 AvailablePorts.Add(port);
@@ -126,7 +130,9 @@ public partial class MonitorViewModel : ObservableObject
                 return;
             }
 
-            _serialPortService.OpenPort(SelectedPort, SelectedBaudRate);
+            // 调用实际的 Open 方法，传入默认参数
+            _serialPortService.Open(SelectedPort, SelectedBaudRate, 8, "None", "1");
+            IsSerialConnected = _serialPortService.IsOpen;
             _loggingService.Information($"串口 {SelectedPort} 已打开，波特率: {SelectedBaudRate}");
         }
         catch (Exception ex)
@@ -141,7 +147,8 @@ public partial class MonitorViewModel : ObservableObject
     {
         try
         {
-            _serialPortService.ClosePort();
+            _serialPortService.Close();
+            IsSerialConnected = _serialPortService.IsOpen;
             _loggingService.Information("串口已关闭");
         }
         catch (Exception ex)
@@ -250,16 +257,25 @@ public partial class MonitorViewModel : ObservableObject
 
     #region 事件处理
 
-    private void OnConnectionStateChanged(object? sender, bool isConnected)
+    private void OnStatusCheckTimerElapsed(object? sender, System.Timers.ElapsedEventArgs e)
     {
         Application.Current.Dispatcher.Invoke(() =>
         {
-            IsSerialConnected = isConnected;
-
-            if (!isConnected && IsMonitoring)
+            try
             {
-                // 串口断开时自动停止监控
-                StopMonitoring();
+                var wasConnected = IsSerialConnected;
+                IsSerialConnected = _serialPortService.IsOpen;
+
+                // 检测断开连接
+                if (wasConnected && !IsSerialConnected && IsMonitoring)
+                {
+                    _loggingService.Warning("串口连接已断开，停止监控");
+                    StopMonitoring();
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggingService.Error($"检查串口状态失败: {ex.Message}");
             }
         });
     }
